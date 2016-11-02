@@ -8,7 +8,6 @@
  * 16445
  * Slip days used: <0>
  * Fall 2016
- * Fall 2016
  */
 
 package assignment5;
