@@ -15,7 +15,6 @@ package assignment5;
 import java.lang.reflect.Constructor;
 import java.util.Iterator;
 import java.util.List;
-import assignment5.Implement;
 
 public abstract class Critter {
 	/* NEW FOR PROJECT 5 */
