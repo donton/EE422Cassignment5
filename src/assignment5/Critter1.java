@@ -1,5 +1,5 @@
-/* CRITTERS TestCritter1.java
- * EE422C Project 4 submission by
+/* CRITTERS GUI <MyClass.java>
+ * EE422C Project 4b submission by
  * Domino Weir
  * drw2583
  * 16445
@@ -9,7 +9,7 @@
  * Slip days used: <0>
  * Fall 2016
  */
-package assignment4;
+package assignment5;
 
 /**
  * 
