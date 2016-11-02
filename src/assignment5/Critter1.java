@@ -18,6 +18,11 @@ package assignment5;
  */
 public class Critter1 extends Critter
 {
+	@Override
+	public CritterShape viewShape()
+	{
+		return Critter.CritterShape.SQUARE;
+	}
 
     @Override
     public String toString() { return "1"; }

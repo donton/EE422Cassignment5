@@ -10,6 +10,7 @@
  * Fall 2016
  */
 package assignment5;
+import assignment5.Critter.CritterShape;
 import assignment5.Critter.TestCritter;
 
 /**
@@ -20,6 +21,12 @@ import assignment5.Critter.TestCritter;
  */
 public class Critter4 extends TestCritter
 {
+	@Override
+	public CritterShape viewShape()
+	{
+		return Critter.CritterShape.STAR;
+	}
+	
 	@Override
     public String toString() { return "4"; }
 

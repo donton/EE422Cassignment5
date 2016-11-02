@@ -10,6 +10,7 @@
  * Fall 2016
  */
 package assignment5;
+import assignment5.Critter.CritterShape;
 import assignment5.Critter.TestCritter;
 
 /**
@@ -19,6 +20,11 @@ import assignment5.Critter.TestCritter;
  */
 public class Critter2 extends Critter
 {
+	@Override
+	public CritterShape viewShape()
+	{
+		return Critter.CritterShape.CIRCLE;
+	}
     @Override
     public String toString() { return "2"; }
     private int dir;

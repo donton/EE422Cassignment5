@@ -25,7 +25,7 @@ public class Main extends Application {
 		try {
 
 			grid.setGridLinesVisible(true);
-
+ 
 			Scene scene = new Scene(grid, 500, 500);
 			primaryStage.setScene(scene);
 
