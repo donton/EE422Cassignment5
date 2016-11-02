@@ -51,16 +51,6 @@ public abstract class Critter {
 	private	static List<Critter> population = new java.util.ArrayList<Critter>();
 	private static List<Critter> babies = new java.util.ArrayList<Critter>();
 
-	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
-	static {
-		myPackage = Critter.class.getPackage().toString().split(" ")[1];
-	}
-	
-	protected String look(int direction, boolean steps) {return "";}
-	
-	/* rest is unchanged from Project 4 */
-	
-	
 	private static java.util.Random rand = new java.util.Random();
 	public static int getRandomInt(int max) {
 		return rand.nextInt(max);
@@ -82,6 +72,42 @@ public abstract class Critter {
     private boolean hasMoved = false;
     private boolean isFighting = false;
     private int dir = 0;
+    private String lookString = new String();
+	
+	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
+	static {
+		myPackage = Critter.class.getPackage().toString().split(" ")[1];
+	}
+	
+	protected String look(int direction, boolean steps) {
+		if (!steps) {
+			dir = direction;
+	        moveWalk();
+	        energy -= Params.look_energy_cost;
+	        if (lookString.equals(null)) {
+	        	if (dir < 4) { dir += 4;}
+	        	else {dir -= 4;}
+	        	moveWalk();
+	        	return null;
+	        }
+	        return lookString;
+		}
+		if (steps) {
+			dir = direction;
+	        moveRun();
+	        energy -= Params.look_energy_cost;
+	        if (lookString.equals(null)) {
+	        	if (dir < 4) { dir += 4;}
+	        	else {dir -= 4;}
+	        	moveRun();
+	        	return null;
+	        }
+	        return lookString;
+		}
+        return null;		
+	}
+	
+	/* rest is unchanged from Project 4 */
 	
   /** move the critter and deduct the appropriate energy cost
      * @param direction is the direction the child will move
@@ -706,9 +732,11 @@ public abstract class Critter {
         {
             if (c.x_coord == x && c.y_coord == y)
             {
+            	lookString = c.toString();
                 return false;
             }
         }
+        lookString = null;
         return true;
     }
 
