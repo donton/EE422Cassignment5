@@ -13,6 +13,7 @@
 package assignment5;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -83,7 +84,7 @@ public class Main extends Application {
 
     public void handleQuitAction()
     {
-
+    	Platform.exit();
     }
 
 }
