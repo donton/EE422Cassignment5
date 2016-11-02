@@ -1,3 +1,16 @@
+/* CRITTERS GUI <MyClass.java>
+ * EE422C Project 4b submission by
+ * Domino Weir
+ * drw2583
+ * 16445
+ * Don Ton
+ * dt22776
+ * 16445
+ * Slip days used: <0>
+ * Fall 2016
+ * Fall 2016
+ */
+
 package assignment5;
 
 import java.lang.reflect.Constructor;
@@ -40,16 +53,6 @@ public abstract class Critter {
     protected List<Critter> getPop() {return population; }
 	private static List<Critter> babies = new java.util.ArrayList<Critter>();
 
-	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
-	static {
-		myPackage = Critter.class.getPackage().toString().split(" ")[1];
-	}
-	
-	protected String look(int direction, boolean steps) {return "";}
-	
-	/* rest is unchanged from Project 4 */
-	
-	
 	private static java.util.Random rand = new java.util.Random();
 	public static int getRandomInt(int max) {
 		return rand.nextInt(max);
@@ -78,6 +81,40 @@ public abstract class Critter {
     protected boolean getFighting() {return isFighting; }
     private int dir = 0;
     protected int getDir(){ return dir; }
+    private String lookString = new String();
+	
+	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
+	static {
+		myPackage = Critter.class.getPackage().toString().split(" ")[1];
+	}
+	
+	protected String look(int direction, boolean steps) {
+		if (!steps) {
+			dir = direction;
+	        Implement.moveWalk(this);
+	        energy -= Params.look_energy_cost;
+	        if (lookString.equals(null)) {
+	        	if (dir < 4) { dir += 4;}
+	        	else {dir -= 4;}
+	        	Implement.moveWalk(this);
+	        	return null;
+	        }
+	        return lookString;
+		}
+		if (steps) {
+			dir = direction;
+	        Implement.moveRun(this);
+	        energy -= Params.look_energy_cost;
+	        if (lookString.equals(null)) {
+	        	if (dir < 4) { dir += 4;}
+	        	else {dir -= 4;}
+	        	Implement.moveRun(this);
+	        	return null;
+	        }
+	        return lookString;
+		}
+        return null;		
+	}
 	
   /** move the critter and deduct the appropriate energy cost
      * @param direction is the direction the child will move
@@ -86,7 +123,7 @@ public abstract class Critter {
     protected final void walk(int direction)
     {
         dir = direction;
-        Implement.moveWalk();
+        Implement.moveWalk(this);
         energy -= Params.walk_energy_cost;
     }
     /**
@@ -97,7 +134,7 @@ public abstract class Critter {
     protected final void run(int direction)
     {
         dir = direction;
-        Implement.moveRun();
+        Implement.moveRun(this);
         energy -= Params.run_energy_cost;
     }
     /**
@@ -276,7 +313,6 @@ public abstract class Critter {
         }
         babies.clear();
     }
-
 
 	
 	/* the TestCritter class allows some critters to "cheat". If you want to 
