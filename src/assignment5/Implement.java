@@ -8,13 +8,13 @@ public abstract class Implement extends Critter
      * adjusts the Critter's x and y coordinates according to their direction
      * basically a long series of switch statements
      */
-    boolean hasMoved = getMoved();
-    boolean isFighting = getFighting();
-    int dir = getDir();
-    int x_coord = getX();
-    int y_coord = getY();
 
-    protected static void moveWalk() {
+    protected static void moveWalk(Critter crit) {
+        boolean hasMoved = crit.getMoved();
+        boolean isFighting = crit.getFighting();
+        int dir = crit.getDir();
+        int x_coord = crit.getX();
+        int y_coord = crit.getY();
         if (!hasMoved) {
             int x_coordNew = 0;
             int y_coordNew = 0;
@@ -28,7 +28,7 @@ public abstract class Implement extends Critter
                     if (x_coord == Params.world_width - 1)
                     {
                         x_coordNew = 0;
-                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coord))
                         {
                             x_coord = x_coordNew;
                         }
@@ -36,7 +36,7 @@ public abstract class Implement extends Critter
                     else
                     {
                         x_coordNew = x_coord + 1;
-                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coord))
                         {
                             x_coord = x_coordNew;
                         }
@@ -48,14 +48,14 @@ public abstract class Implement extends Critter
                     if (x_coord == Params.world_width - 1)
                     {
                         x_coordNew = 0;
-                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coord))
                         {
                             xSafe = true;
                         }
                         if (y_coord == 0)
                         {
                             y_coordNew = Params.world_height - 1;
-                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            if (isAdjacentSafe(crit, x_coord, y_coordNew))
                             {
                                 ySafe = true;
                             }
@@ -67,7 +67,7 @@ public abstract class Implement extends Critter
                         else
                         {
                             y_coordNew = y_coord - 1;
-                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            if (isAdjacentSafe(crit, x_coord, y_coordNew))
                             {
                                 y_coord = y_coordNew;
                             }
@@ -80,14 +80,14 @@ public abstract class Implement extends Critter
                     else if (y_coord == 0)
                     {
                         y_coordNew = Params.world_height - 1;
-                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coord, y_coordNew))
                         {
                             ySafe = true;
                         }
                         if (x_coord == Params.world_width - 1)
                         {
                             x_coordNew = 0;
-                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            if (isAdjacentSafe(crit, x_coordNew, y_coord))
                             {
                                 xSafe = true;
                             }
@@ -99,7 +99,7 @@ public abstract class Implement extends Critter
                         else
                         {
                             x_coordNew = x_coordNew + 1;
-                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            if (isAdjacentSafe(crit, x_coordNew, y_coord))
                             {
                                 xSafe = true;
                             }
@@ -113,7 +113,7 @@ public abstract class Implement extends Critter
                     {
                         x_coordNew = x_coord + 1;
                         y_coordNew = y_coord - 1;
-                        if (isAdjacentSafe(x_coordNew, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coordNew))
                         {
                             x_coord = x_coordNew;
                             y_coord = y_coordNew;
@@ -126,7 +126,7 @@ public abstract class Implement extends Critter
                     if (y_coord == 0)
                     {
                         y_coordNew = Params.world_height - 1;
-                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coord, y_coordNew))
                         {
                             y_coord = y_coordNew;
                         }
@@ -134,7 +134,7 @@ public abstract class Implement extends Critter
                     else
                     {
                         y_coordNew =  y_coord - 1;
-                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coord, y_coordNew))
                         {
                             y_coord = y_coordNew;
                         }
@@ -146,14 +146,14 @@ public abstract class Implement extends Critter
                     if (x_coord == 0)
                     {
                         x_coordNew = Params.world_width - 1;
-                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coord))
                         {
                             xSafe = true;
                         }
                         if (y_coord == 0)
                         {
                             y_coordNew = Params.world_height - 1;
-                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            if (isAdjacentSafe(crit, x_coord, y_coordNew))
                             {
                                 ySafe = true;
                             }
@@ -165,7 +165,7 @@ public abstract class Implement extends Critter
                         else
                         {
                             y_coordNew = y_coord - 1;
-                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            if (isAdjacentSafe(crit, x_coord, y_coordNew))
                             {
                                 ySafe = true;
                             }
@@ -179,14 +179,14 @@ public abstract class Implement extends Critter
                     else if (y_coord == 0)
                     {
                         y_coordNew = Params.world_height - 1;
-                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coord, y_coordNew))
                         {
                             ySafe = true;
                         }
                         if (x_coord == 0)
                         {
                             x_coordNew = Params.world_width - 1;
-                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            if (isAdjacentSafe(crit, x_coordNew, y_coord))
                             {
                                 xSafe = true;
                             }
@@ -198,7 +198,7 @@ public abstract class Implement extends Critter
                         else
                         {
                             x_coordNew = x_coord - 1;
-                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            if (isAdjacentSafe(crit, x_coordNew, y_coord))
                             {
                                 xSafe = true;
                             }
@@ -212,7 +212,7 @@ public abstract class Implement extends Critter
                     {
                         x_coordNew = x_coord - 1;
                         y_coordNew = y_coord - 1;
-                        if (isAdjacentSafe(x_coordNew, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coordNew))
                         {
                             x_coord = x_coordNew;
                             y_coord = y_coordNew;
@@ -225,7 +225,7 @@ public abstract class Implement extends Critter
                     if (x_coord == 0)
                     {
                         x_coordNew = Params.world_width - 1;
-                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coord))
                         {
                             x_coord = x_coordNew;
                         }
@@ -233,7 +233,7 @@ public abstract class Implement extends Critter
                     else
                     {
                         x_coordNew = x_coord - 1;
-                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coord))
                         {
                             x_coord = x_coordNew;
                         }
@@ -245,14 +245,14 @@ public abstract class Implement extends Critter
                     if (x_coord == 0)
                     {
                         x_coordNew = Params.world_width - 1;
-                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coord))
                         {
                             xSafe = true;
                         }
                         if (y_coord == Params.world_height - 1)
                         {
                             y_coordNew = 0;
-                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            if (isAdjacentSafe(crit, x_coord, y_coordNew))
                             {
                                 ySafe = true;
                             }
@@ -264,7 +264,7 @@ public abstract class Implement extends Critter
                         else
                         {
                             y_coordNew = y_coord + 1;
-                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            if (isAdjacentSafe(crit, x_coord, y_coordNew))
                             {
                                 ySafe = true;
                             }
@@ -278,14 +278,14 @@ public abstract class Implement extends Critter
                     else if (y_coord == Params.world_height - 1)
                     {
                         y_coordNew = 0;
-                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coord, y_coordNew))
                         {
                             ySafe = true;
                         }
                         if (x_coord == 0)
                         {
                             x_coordNew = Params.world_width - 1;
-                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            if (isAdjacentSafe(crit, x_coordNew, y_coord))
                             {
                                 xSafe = true;
                             }
@@ -297,7 +297,7 @@ public abstract class Implement extends Critter
                         else
                         {
                             x_coordNew = x_coord - 1;
-                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            if (isAdjacentSafe(crit, x_coordNew, y_coord))
                             {
                                 xSafe = true;
                             }
@@ -311,7 +311,7 @@ public abstract class Implement extends Critter
                     {
                         x_coordNew = x_coord - 1;
                         y_coordNew = y_coord + 1;
-                        if (isAdjacentSafe(x_coordNew, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coordNew))
                         {
                             x_coord = x_coordNew;
                             y_coord = y_coordNew;
@@ -324,7 +324,7 @@ public abstract class Implement extends Critter
                     if (y_coord == Params.world_height - 1)
                     {
                         y_coordNew = 0;
-                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coord, y_coordNew))
                         {
                             y_coord = y_coordNew;
                         }
@@ -333,7 +333,7 @@ public abstract class Implement extends Critter
                     else
                     {
                         y_coordNew = y_coord + 1;
-                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coord, y_coordNew))
                         {
                             y_coord = y_coordNew;
                         }
@@ -344,14 +344,14 @@ public abstract class Implement extends Critter
                         return;
                     if (x_coord == Params.world_width - 1) {
                         x_coordNew = 0;
-                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coord))
                         {
                             xSafe = true;
                         }
                         if (y_coord == Params.world_height - 1)
                         {
                             y_coordNew = 0;
-                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            if (isAdjacentSafe(crit, x_coord, y_coordNew))
                             {
                                 ySafe = true;
                             }
@@ -363,7 +363,7 @@ public abstract class Implement extends Critter
                         else
                         {
                             y_coordNew = y_coord + 1;
-                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            if (isAdjacentSafe(crit, x_coord, y_coordNew))
                             {
                                 ySafe = true;
                             }
@@ -377,14 +377,14 @@ public abstract class Implement extends Critter
                     else if (y_coord == Params.world_height - 1)
                     {
                         y_coordNew = 0;
-                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coord, y_coordNew))
                         {
                             ySafe = true;
                         }
                         if (x_coord == Params.world_width - 1)
                         {
                             x_coordNew = 0;
-                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            if (isAdjacentSafe(crit, x_coordNew, y_coord))
                             {
                                 xSafe = true;
                             }
@@ -396,7 +396,7 @@ public abstract class Implement extends Critter
                         else
                         {
                             x_coordNew = x_coord + 1;
-                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            if (isAdjacentSafe(crit, x_coordNew, y_coord))
                             {
                                 xSafe = true;
                             }
@@ -410,7 +410,7 @@ public abstract class Implement extends Critter
                     {
                         x_coordNew = x_coord + 1;
                         y_coordNew = y_coord + 1;
-                        if (isAdjacentSafe(x_coordNew, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coordNew))
                         {
                             x_coord = x_coordNew;
                             y_coord = y_coordNew;
@@ -429,9 +429,9 @@ public abstract class Implement extends Critter
      * @param y y_coord to check
      * @return true or false
      */
-    private boolean isAdjacentSafe(int x, int y)
+    private static boolean isAdjacentSafe(Critter crit, int x, int y)
     {
-        List<Critter> population = getPop();
+        List<Critter> population = crit.getPop();
         for (Critter c : population)
         {
             if (c.getX() == x && c.getY() == y)
@@ -447,7 +447,12 @@ public abstract class Implement extends Critter
      * basically a long series of switch statements
      * difference from walk - move farther, larger energy deduction
      */
-    protected static void moveRun() {
+    protected static void moveRun(Critter crit) {
+        boolean hasMoved = crit.getMoved();
+        boolean isFighting = crit.getFighting();
+        int dir = crit.getDir();
+        int x_coord = crit.getX();
+        int y_coord = crit.getY();
         if (!hasMoved) {
             int x_coordNew = 0;
             int y_coordNew = 0;
@@ -487,7 +492,7 @@ public abstract class Implement extends Critter
                     if (newLeftEdgeX == 0 || newLeftEdgeX == 1)
                     {
                         x_coordNew = newLeftEdgeX;
-                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coord))
                         {
                             x_coord = x_coordNew;
                         }
@@ -495,7 +500,7 @@ public abstract class Implement extends Critter
                     else
                     {
                         x_coordNew = x_coord + 2;
-                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coord))
                         {
                             x_coord = x_coordNew;
                         }
@@ -506,13 +511,13 @@ public abstract class Implement extends Critter
                         return;
                     if (newLeftEdgeX == 0 || newLeftEdgeX == 1) {
                         x_coordNew = newLeftEdgeX;
-                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coord))
                         {
                             xSafe = true;
                         }
                         if (y_coord == 0 || y_coord == 1) {
                             y_coordNew = newBottomEdgeY;
-                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            if (isAdjacentSafe(crit, x_coord, y_coordNew))
                             {
                                 ySafe = true;
                             }
@@ -522,7 +527,7 @@ public abstract class Implement extends Critter
                             }
                         } else {
                             y_coordNew = y_coord - 2;
-                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            if (isAdjacentSafe(crit, x_coord, y_coordNew))
                             {
                                 ySafe = true;
                             }
@@ -534,13 +539,13 @@ public abstract class Implement extends Critter
 
                     } else if (y_coord == 0 || y_coord == 1) {
                         y_coordNew = newBottomEdgeY;
-                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coord, y_coordNew))
                         {
                             ySafe = true;
                         }
                         if (newLeftEdgeX == 0 || newLeftEdgeX == 1) {
                             x_coordNew = newLeftEdgeX;
-                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            if (isAdjacentSafe(crit, x_coordNew, y_coord))
                             {
                                 xSafe = true;
                             }
@@ -550,7 +555,7 @@ public abstract class Implement extends Critter
                             }
                         } else {
                             x_coordNew = x_coord + 2;
-                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            if (isAdjacentSafe(crit, x_coordNew, y_coord))
                             {
                                 xSafe = true;
                             }
@@ -562,7 +567,7 @@ public abstract class Implement extends Critter
                     } else {
                         x_coordNew = x_coord + 2;
                         y_coordNew = y_coord - 2;
-                        if (isAdjacentSafe(x_coordNew, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coordNew))
                         {
                             x_coord = x_coordNew;
                             y_coord = y_coordNew;
@@ -574,13 +579,13 @@ public abstract class Implement extends Critter
                         return;
                     if (y_coord == 0 || y_coord == 1) {
                         y_coordNew = newBottomEdgeY;
-                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coord, y_coordNew))
                         {
                             y_coord = y_coordNew;
                         }
                     } else {
                         y_coordNew = y_coord - 2;
-                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coord, y_coordNew))
                         {
                             y_coord = y_coordNew;
                         }
@@ -591,13 +596,13 @@ public abstract class Implement extends Critter
                         return;
                     if (x_coord == 0 || y_coord == 1) {
                         x_coordNew = newRightEdgeX;
-                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coord))
                         {
                             xSafe = true;
                         }
                         if (y_coord == 0 || y_coord == 1) {
                             y_coordNew = newBottomEdgeY;
-                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            if (isAdjacentSafe(crit, x_coord, y_coordNew))
                             {
                                 ySafe = true;
                             }
@@ -607,7 +612,7 @@ public abstract class Implement extends Critter
                             }
                         } else {
                             y_coordNew = y_coord - 2;
-                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            if (isAdjacentSafe(crit, x_coord, y_coordNew))
                             {
                                 ySafe = true;
                             }
@@ -619,13 +624,13 @@ public abstract class Implement extends Critter
 
                     } else if (y_coord == 0 || y_coord == 1) {
                         y_coordNew = newBottomEdgeY;
-                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coord, y_coordNew))
                         {
                             ySafe = true;
                         }
                         if (x_coord == 0 || x_coord == 1) {
                             x_coordNew = newRightEdgeX;
-                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            if (isAdjacentSafe(crit, x_coordNew, y_coord))
                             {
                                 xSafe = true;
                             }
@@ -635,7 +640,7 @@ public abstract class Implement extends Critter
                             }
                         } else {
                             x_coordNew = x_coord - 2;
-                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            if (isAdjacentSafe(crit, x_coordNew, y_coord))
                             {
                                 xSafe = true;
                             }
@@ -647,7 +652,7 @@ public abstract class Implement extends Critter
                     } else {
                         x_coordNew = x_coord - 2;
                         y_coordNew = y_coord - 2;
-                        if (isAdjacentSafe(x_coordNew, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coordNew))
                         {
                             x_coord = x_coordNew;
                             y_coord = y_coordNew;
@@ -660,7 +665,7 @@ public abstract class Implement extends Critter
                     if (x_coord == 0 || x_coord == 1)
                     {
                         x_coordNew = newRightEdgeX;
-                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coord))
                         {
                             x_coord = x_coordNew;
                         }
@@ -668,7 +673,7 @@ public abstract class Implement extends Critter
                     else
                     {
                         x_coordNew = x_coord - 2;
-                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coord))
                         {
                             x_coord = x_coordNew;
                         }
@@ -679,13 +684,13 @@ public abstract class Implement extends Critter
                         return;
                     if (x_coord == 0 || x_coord == 1) {
                         x_coordNew = newRightEdgeX;
-                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coord))
                         {
                             xSafe = true;
                         }
                         if (newTopEdgeY == 0 || newTopEdgeY == 1) {
                             y_coordNew = newBottomEdgeY;
-                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            if (isAdjacentSafe(crit, x_coord, y_coordNew))
                             {
                                 ySafe = true;
                             }
@@ -695,7 +700,7 @@ public abstract class Implement extends Critter
                             }
                         } else {
                             y_coordNew = y_coord + 2;
-                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            if (isAdjacentSafe(crit, x_coord, y_coordNew))
                             {
                                 ySafe = true;
                             }
@@ -707,13 +712,13 @@ public abstract class Implement extends Critter
 
                     } else if (newTopEdgeY == 0 || newTopEdgeY == 1) {
                         y_coordNew = newTopEdgeY;
-                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coord, y_coordNew))
                         {
                             ySafe = true;
                         }
                         if (x_coord == 0 || x_coord == 1) {
                             x_coordNew = newRightEdgeX;
-                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            if (isAdjacentSafe(crit, x_coordNew, y_coord))
                             {
                                 xSafe = true;
                             }
@@ -723,7 +728,7 @@ public abstract class Implement extends Critter
                             }
                         } else {
                             x_coordNew = x_coord - 2;
-                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            if (isAdjacentSafe(crit, x_coordNew, y_coord))
                             {
                                 xSafe = true;
                             }
@@ -735,7 +740,7 @@ public abstract class Implement extends Critter
                     } else {
                         x_coordNew = x_coord - 2;
                         y_coordNew = y_coord + 2;
-                        if (isAdjacentSafe(x_coordNew, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coordNew))
                         {
                             x_coord = x_coordNew;
                             y_coord = y_coordNew;
@@ -748,7 +753,7 @@ public abstract class Implement extends Critter
                     if (newTopEdgeY == 0 || newTopEdgeY == 1)
                     {
                         y_coordNew = newTopEdgeY;
-                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coord, y_coordNew))
                         {
                             y_coord = y_coordNew;
                         }
@@ -756,7 +761,7 @@ public abstract class Implement extends Critter
                     else
                     {
                         y_coordNew = y_coord + 2;
-                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coord, y_coordNew))
                         {
                             y_coord = y_coordNew;
                         }
@@ -767,13 +772,13 @@ public abstract class Implement extends Critter
                         return;
                     if (newLeftEdgeX == 0 || newLeftEdgeX == 1) {
                         x_coordNew = newLeftEdgeX;
-                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coord))
                         {
                             xSafe = true;
                         }
                         if (newTopEdgeY == 0 || newTopEdgeY == 1) {
                             y_coordNew = newTopEdgeY;
-                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            if (isAdjacentSafe(crit, x_coord, y_coordNew))
                             {
                                 ySafe = true;
                             }
@@ -783,7 +788,7 @@ public abstract class Implement extends Critter
                             }
                         } else {
                             y_coordNew = y_coord + 2;
-                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            if (isAdjacentSafe(crit, x_coord, y_coordNew))
                             {
                                 ySafe = true;
                             }
@@ -795,13 +800,13 @@ public abstract class Implement extends Critter
 
                     } else if (newTopEdgeY == 0 || newTopEdgeY == 1) {
                         y_coordNew = newTopEdgeY;
-                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coord, y_coordNew))
                         {
                             ySafe = true;
                         }
                         if (newLeftEdgeX == 0 || newLeftEdgeX == 1) {
                             x_coordNew = newLeftEdgeX;
-                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            if (isAdjacentSafe(crit, x_coordNew, y_coord))
                             {
                                 xSafe = true;
                             }
@@ -811,7 +816,7 @@ public abstract class Implement extends Critter
                             }
                         } else {
                             x_coordNew = x_coord + 2;
-                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            if (isAdjacentSafe(crit, x_coordNew, y_coord))
                             {
                                 xSafe = true;
                             }
@@ -823,7 +828,7 @@ public abstract class Implement extends Critter
                     } else {
                         x_coordNew = x_coord + 2;
                         y_coordNew = y_coord + 2;
-                        if (isAdjacentSafe(x_coordNew, y_coordNew))
+                        if (isAdjacentSafe(crit, x_coordNew, y_coordNew))
                         {
                             x_coord = x_coordNew;
                             y_coord = y_coordNew;
