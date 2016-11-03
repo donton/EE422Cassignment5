@@ -57,7 +57,7 @@ public class Main extends Application {
             enterNumber = new Label("How many?");
             number = new TextField();
 
-            makeBox = new VBox(enterType, type, enterNumber, number);
+            makeBox = new VBox(enterType, type, enterNumber, number, makeButton);
 
             buffer = new Region();
 
@@ -101,7 +101,35 @@ public class Main extends Application {
 
 	public void handleMakeAction()
     {
-        //Critter.makeCritter();
+        Integer numCritters = 0;
+        if (type.getText() != null && number.getText().isEmpty() == false)
+        {
+            if (number.getText() == null | number.getText().isEmpty())
+            {
+                numCritters = 1;
+            }
+            else
+            {
+                numCritters = Integer.valueOf(number.getText().toString());
+            }
+            while (numCritters != 0)
+            {
+                try
+                {
+                Critter.makeCritter(type.getText().toString());
+                }
+                catch (InvalidCritterException e)
+                {
+                    break;
+                }
+                numCritters -= 1;
+            }
+
+        }
+        else
+        {
+
+        }
     }
 
     public void handleStepAction()
