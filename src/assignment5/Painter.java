@@ -42,7 +42,7 @@ public class Painter {
     /*
      * Paints the shape on a grid.
      */
-    public static void paint() {
+    public static void displayWorld() {
         Main.grid.getChildren().clear();
         ArrayList<Critter> population = (ArrayList<Critter>) Critter.getPop();
         for (Critter critter : population)

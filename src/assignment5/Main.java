@@ -43,6 +43,7 @@ public class Main extends Application {
 
 			grid.setGridLinesVisible(true);
 
+
             makeButton = new Button("Make New Critters");
             stepButton = new Button("World Step");
             quitButton = new Button("Quit");
@@ -87,18 +88,14 @@ public class Main extends Application {
             primaryStage.show();
 
 			// Paints the icons.
-			Painter.paint();
+			Painter.displayWorld();
 
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static void main(String[] args) {
-
-		launch(args);
-        while (true){ Painter.paint(); }
-	}
+	public static void main(String[] args) { launch(args); }
 
 	public void handleMakeAction()
     {
@@ -127,15 +124,13 @@ public class Main extends Application {
             }
 
         }
-        else
-        {
-            return;
-        }
+        Painter.displayWorld();
     }
 
     public void handleStepAction()
     {
         Critter.worldTimeStep();
+        Painter.displayWorld();
     }
 
     public void handleQuitAction()
