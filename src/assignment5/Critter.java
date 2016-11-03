@@ -37,22 +37,32 @@ public abstract class Critter {
 	 * shape, at least, that's the intent. You can edit these default methods however you 
 	 * need to, but please preserve that intent as you implement them. 
 	 */
-	public javafx.scene.paint.Color viewColor() { return javafx.scene.paint.Color.WHITE; }
+	public javafx.scene.paint.Color viewColor() { 
+		return javafx.scene.paint.Color.WHITE; 
+	}
+	
 	public javafx.scene.paint.Color viewOutlineColor() { return viewColor(); }
 	public javafx.scene.paint.Color viewFillColor() { return viewColor(); }
+	
 	public abstract CritterShape viewShape(); 
 	
 	private static String myPackage;
-
-
 	private	static List<Critter> population = new java.util.ArrayList<Critter>();
     protected static List<Critter> getPop() {return population; }
 	private static List<Critter> babies = new java.util.ArrayList<Critter>();
 
 	private static java.util.Random rand = new java.util.Random();
-	public static int getRandomInt(int max) { return rand.nextInt(max); }
+	public static int getRandomInt(int max) {
+		return rand.nextInt(max);
+	}
 	
-	public static void setSeed(long new_seed) { rand = new java.util.Random(new_seed); }
+	public static void setSeed(long new_seed) {
+		rand = new java.util.Random(new_seed);
+	}
+	
+	
+	/* a one-character long string that visually depicts your critter in the ASCII interface */
+	public String toString() { return ""; }
 	
 	private int energy = 0;
 	protected int getEnergy() { return energy; }
@@ -69,7 +79,7 @@ public abstract class Critter {
     protected boolean getFighting() {return isFighting; }
     private int dir = 0;
     protected int getDir(){ return dir; }
-    private String lookString = new String();
+    private static String lookString = new String();
 	
 	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
 	static {
@@ -81,30 +91,38 @@ public abstract class Critter {
 			dir = direction;
 	        Implement.moveWalk(this);
 	        energy -= Params.look_energy_cost;
-	        if (lookString.equals(null)) {
+	        if (getLookString().equals(null)) {
 	        	if (dir < 4) { dir += 4;}
 	        	else {dir -= 4;}
 	        	Implement.moveWalk(this);
 	        	return null;
 	        }
-	        return lookString;
+	        return getLookString();
 		}
 		if (steps) {
 			dir = direction;
 	        Implement.moveRun(this);
 	        energy -= Params.look_energy_cost;
-	        if (lookString.equals(null)) {
+	        if (getLookString().equals(null)) {
 	        	if (dir < 4) { dir += 4;}
 	        	else {dir -= 4;}
 	        	Implement.moveRun(this);
 	        	return null;
 	        }
-	        return lookString;
+	        return getLookString();
 		}
         return null;		
 	}
 	
-  /** move the critter and deduct the appropriate energy cost
+	protected static String getLookString() {
+		return lookString;
+	}
+
+	protected static void setLookString(String string) {
+		string = lookString;
+	}
+
+/** move the critter and deduct the appropriate energy cost
      * @param direction is the direction the child will move
      * @return none
      */

@@ -436,9 +436,11 @@ public abstract class Implement extends Critter
         {
             if (c.getX() == x && c.getY() == y)
             {
+            	setLookString(c.toString());
                 return false;
             }
         }
+        setLookString(null);
         return true;
     }
 
