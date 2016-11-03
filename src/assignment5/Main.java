@@ -97,6 +97,7 @@ public class Main extends Application {
 	public static void main(String[] args) {
 
 		launch(args);
+        while (true){ Painter.paint(); }
 	}
 
 	public void handleMakeAction()
@@ -120,7 +121,7 @@ public class Main extends Application {
                 }
                 catch (InvalidCritterException e)
                 {
-                    break;
+                    return;
                 }
                 numCritters -= 1;
             }
