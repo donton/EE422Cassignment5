@@ -27,14 +27,14 @@ public class Painter {
 
         switch(shapeIndex) {
             case 0: s = new Rectangle(size, size);
-                s.setFill(javafx.scene.paint.Color.RED); break;
+                s.setFill(critter.viewFillColor()); break;
             case 1: s = new Circle(size/2);
-                s.setFill(javafx.scene.paint.Color.GREEN); break;
+                s.setFill(critter.viewFillColor()); break;
             case 2: s = new Circle(size);
                 s.setFill(Color.BLUE);
         }
         // set the outline of the shape
-        s.setStroke(javafx.scene.paint.Color.BLUE); // outline
+        s.setStroke(critter.viewOutlineColor()); // outline
         return s;
     }
 

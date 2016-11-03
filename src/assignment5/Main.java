@@ -99,7 +99,7 @@ public class Main extends Application {
 
 	public void handleMakeAction()
     {
-        Integer numCritters = 0;
+        Integer numCritters;
         if (type.getText() != null && number.getText().isEmpty() == false)
         {
             if (number.getText() == null | number.getText().isEmpty())
