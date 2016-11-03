@@ -24,7 +24,6 @@ public class Painter {
     static Shape getIcon(Critter critter, int shapeIndex) {
         Shape s = null;
         int size = 10;
-        //String color = critter.viewColor().toString();
 
         switch(shapeIndex) {
             case 0: s = new Rectangle(size, size);
