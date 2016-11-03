@@ -22,7 +22,7 @@ public class Painter {
      */
     static Shape getIcon(int shapeIndex) {
         Shape s = null;
-        int size = 100;
+        int size = 10;
 
         switch(shapeIndex) {
             case 0: s = new Rectangle(size, size);
