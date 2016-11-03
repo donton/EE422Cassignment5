@@ -128,13 +128,13 @@ public class Main extends Application {
         }
         else
         {
-
+            return;
         }
     }
 
     public void handleStepAction()
     {
-
+        Critter.worldTimeStep();
     }
 
     public void handleQuitAction()
