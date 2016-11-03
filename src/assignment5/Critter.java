@@ -37,32 +37,22 @@ public abstract class Critter {
 	 * shape, at least, that's the intent. You can edit these default methods however you 
 	 * need to, but please preserve that intent as you implement them. 
 	 */
-	public javafx.scene.paint.Color viewColor() { 
-		return javafx.scene.paint.Color.WHITE; 
-	}
-	
+	public javafx.scene.paint.Color viewColor() { return javafx.scene.paint.Color.WHITE; }
 	public javafx.scene.paint.Color viewOutlineColor() { return viewColor(); }
 	public javafx.scene.paint.Color viewFillColor() { return viewColor(); }
-	
 	public abstract CritterShape viewShape(); 
 	
 	private static String myPackage;
+
+
 	private	static List<Critter> population = new java.util.ArrayList<Critter>();
-    protected List<Critter> getPop() {return population; }
+    protected static List<Critter> getPop() {return population; }
 	private static List<Critter> babies = new java.util.ArrayList<Critter>();
 
 	private static java.util.Random rand = new java.util.Random();
-	public static int getRandomInt(int max) {
-		return rand.nextInt(max);
-	}
+	public static int getRandomInt(int max) { return rand.nextInt(max); }
 	
-	public static void setSeed(long new_seed) {
-		rand = new java.util.Random(new_seed);
-	}
-	
-	
-	/* a one-character long string that visually depicts your critter in the ASCII interface */
-	public String toString() { return ""; }
+	public static void setSeed(long new_seed) { rand = new java.util.Random(new_seed); }
 	
 	private int energy = 0;
 	protected int getEnergy() { return energy; }
