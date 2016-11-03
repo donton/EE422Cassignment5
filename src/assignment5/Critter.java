@@ -55,9 +55,7 @@ public abstract class Critter {
 		return rand.nextInt(max);
 	}
 	
-	public static void setSeed(long new_seed) {
-		rand = new java.util.Random(new_seed);
-	}
+	public static void setSeed(long new_seed) { rand = new java.util.Random(new_seed); }
 	
 	
 	/* a one-character long string that visually depicts your critter in the ASCII interface */
@@ -73,11 +71,8 @@ public abstract class Critter {
 	private int y_coord;
     protected int getY() {return y_coord; }
     private boolean hasMoved = false;
-    protected boolean getMoved(){return hasMoved; }
     private boolean isFighting = false;
-    protected boolean getFighting() {return isFighting; }
     private int dir = 0;
-    protected int getDir(){ return dir; }
     private static String lookString = new String();
 	
 	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
@@ -88,24 +83,24 @@ public abstract class Critter {
 	protected String look(int direction, boolean steps) {
 		if (!steps) {
 			dir = direction;
-	        Implement.moveWalk(this);
+	        moveWalk();
 	        energy -= Params.look_energy_cost;
 	        if (getLookString().equals(null)) {
 	        	if (dir < 4) { dir += 4;}
 	        	else {dir -= 4;}
-	        	Implement.moveWalk(this);
+	        	moveWalk();
 	        	return null;
 	        }
 	        return getLookString();
 		}
 		if (steps) {
 			dir = direction;
-	        Implement.moveRun(this);
+	        moveRun();
 	        energy -= Params.look_energy_cost;
 	        if (getLookString().equals(null)) {
 	        	if (dir < 4) { dir += 4;}
 	        	else {dir -= 4;}
-	        	Implement.moveRun(this);
+	        	moveRun();
 	        	return null;
 	        }
 	        return getLookString();
@@ -118,7 +113,7 @@ public abstract class Critter {
 	}
 
 	protected static void setLookString(String string) {
-		string = lookString;
+		lookString = string;
 	}
 
 /** move the critter and deduct the appropriate energy cost
@@ -128,7 +123,7 @@ public abstract class Critter {
     protected final void walk(int direction)
     {
         dir = direction;
-        Implement.moveWalk(this);
+        moveWalk();
         energy -= Params.walk_energy_cost;
     }
     /**
@@ -139,7 +134,7 @@ public abstract class Critter {
     protected final void run(int direction)
     {
         dir = direction;
-        Implement.moveRun(this);
+        moveRun();
         energy -= Params.run_energy_cost;
     }
     /**
@@ -300,7 +295,7 @@ public abstract class Critter {
                 {
                     a.isFighting = true;
                     b.isFighting = true;
-                    Implement.fighting(a,b);
+                    fighting(a,b);
                     a.isFighting = false;
                     b.isFighting = false;
                 }
@@ -371,5 +366,887 @@ public abstract class Critter {
 			return babies;
 		}
 	}
+
+    /**
+     * adjusts the Critter's x and y coordinates according to their direction
+     * basically a long series of switch statements
+     */
+    private void moveWalk() {
+        if (!hasMoved) {
+            int x_coordNew = 0;
+            int y_coordNew = 0;
+            boolean xSafe = false;
+            boolean ySafe = false;
+
+            switch (dir) {
+                case 0:
+                    if (isFighting && hasMoved)
+                        return;
+                    if (x_coord == Params.world_width - 1)
+                    {
+                        x_coordNew = 0;
+                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        {
+                            x_coord = x_coordNew;
+                        }
+                    }
+                    else
+                    {
+                        x_coordNew = x_coord + 1;
+                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        {
+                            x_coord = x_coordNew;
+                        }
+                    }
+                    break;
+                case 1:
+                    if (isFighting && hasMoved)
+                        return;
+                    if (x_coord == Params.world_width - 1)
+                    {
+                        x_coordNew = 0;
+                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        {
+                            xSafe = true;
+                        }
+                        if (y_coord == 0)
+                        {
+                            y_coordNew = Params.world_height - 1;
+                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            {
+                                ySafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+                        else
+                        {
+                            y_coordNew = y_coord - 1;
+                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            {
+                                y_coord = y_coordNew;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+                    }
+                    else if (y_coord == 0)
+                    {
+                        y_coordNew = Params.world_height - 1;
+                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        {
+                            ySafe = true;
+                        }
+                        if (x_coord == Params.world_width - 1)
+                        {
+                            x_coordNew = 0;
+                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            {
+                                xSafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+                        else
+                        {
+                            x_coordNew = x_coordNew + 1;
+                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            {
+                                xSafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        x_coordNew = x_coord + 1;
+                        y_coordNew = y_coord - 1;
+                        if (isAdjacentSafe(x_coordNew, y_coordNew))
+                        {
+                            x_coord = x_coordNew;
+                            y_coord = y_coordNew;
+                        }
+                    }
+                    break;
+                case 2:
+                    if (isFighting && hasMoved)
+                        return;
+                    if (y_coord == 0)
+                    {
+                        y_coordNew = Params.world_height - 1;
+                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        {
+                            y_coord = y_coordNew;
+                        }
+                    }
+                    else
+                    {
+                        y_coordNew =  y_coord - 1;
+                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        {
+                            y_coord = y_coordNew;
+                        }
+                    }
+                    break;
+                case 3:
+                    if (isFighting && hasMoved)
+                        return;
+                    if (x_coord == 0)
+                    {
+                        x_coordNew = Params.world_width - 1;
+                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        {
+                            xSafe = true;
+                        }
+                        if (y_coord == 0)
+                        {
+                            y_coordNew = Params.world_height - 1;
+                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            {
+                                ySafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+                        else
+                        {
+                            y_coordNew = y_coord - 1;
+                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            {
+                                ySafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+
+                    }
+                    else if (y_coord == 0)
+                    {
+                        y_coordNew = Params.world_height - 1;
+                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        {
+                            ySafe = true;
+                        }
+                        if (x_coord == 0)
+                        {
+                            x_coordNew = Params.world_width - 1;
+                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            {
+                                xSafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+                        else
+                        {
+                            x_coordNew = x_coord - 1;
+                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            {
+                                xSafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        x_coordNew = x_coord - 1;
+                        y_coordNew = y_coord - 1;
+                        if (isAdjacentSafe(x_coordNew, y_coordNew))
+                        {
+                            x_coord = x_coordNew;
+                            y_coord = y_coordNew;
+                        }
+                    }
+                    break;
+                case 4:
+                    if (isFighting && hasMoved)
+                        return;
+                    if (x_coord == 0)
+                    {
+                        x_coordNew = Params.world_width - 1;
+                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        {
+                            x_coord = x_coordNew;
+                        }
+                    }
+                    else
+                    {
+                        x_coordNew = x_coord - 1;
+                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        {
+                            x_coord = x_coordNew;
+                        }
+                    }
+                    break;
+                case 5:
+                    if (isFighting && hasMoved)
+                        return;
+                    if (x_coord == 0)
+                    {
+                        x_coordNew = Params.world_width - 1;
+                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        {
+                            xSafe = true;
+                        }
+                        if (y_coord == Params.world_height - 1)
+                        {
+                            y_coordNew = 0;
+                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            {
+                                ySafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+                        else
+                        {
+                            y_coordNew = y_coord + 1;
+                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            {
+                                ySafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+
+                    }
+                    else if (y_coord == Params.world_height - 1)
+                    {
+                        y_coordNew = 0;
+                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        {
+                            ySafe = true;
+                        }
+                        if (x_coord == 0)
+                        {
+                            x_coordNew = Params.world_width - 1;
+                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            {
+                                xSafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+                        else
+                        {
+                            x_coordNew = x_coord - 1;
+                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            {
+                                xSafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        x_coordNew = x_coord - 1;
+                        y_coordNew = y_coord + 1;
+                        if (isAdjacentSafe(x_coordNew, y_coordNew))
+                        {
+                            x_coord = x_coordNew;
+                            y_coord = y_coordNew;
+                        }
+                    }
+                    break;
+                case 6:
+                    if (isFighting && hasMoved)
+                        return;
+                    if (y_coord == Params.world_height - 1)
+                    {
+                        y_coordNew = 0;
+                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        {
+                            y_coord = y_coordNew;
+                        }
+
+                    }
+                    else
+                    {
+                        y_coordNew = y_coord + 1;
+                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        {
+                            y_coord = y_coordNew;
+                        }
+                    }
+                    break;
+                case 7:
+                    if (isFighting && hasMoved)
+                        return;
+                    if (x_coord == Params.world_width - 1) {
+                        x_coordNew = 0;
+                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        {
+                            xSafe = true;
+                        }
+                        if (y_coord == Params.world_height - 1)
+                        {
+                            y_coordNew = 0;
+                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            {
+                                ySafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+                        else
+                        {
+                            y_coordNew = y_coord + 1;
+                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            {
+                                ySafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+
+                    }
+                    else if (y_coord == Params.world_height - 1)
+                    {
+                        y_coordNew = 0;
+                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        {
+                            ySafe = true;
+                        }
+                        if (x_coord == Params.world_width - 1)
+                        {
+                            x_coordNew = 0;
+                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            {
+                                xSafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+                        else
+                        {
+                            x_coordNew = x_coord + 1;
+                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            {
+                                xSafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        x_coordNew = x_coord + 1;
+                        y_coordNew = y_coord + 1;
+                        if (isAdjacentSafe(x_coordNew, y_coordNew))
+                        {
+                            x_coord = x_coordNew;
+                            y_coord = y_coordNew;
+                        }
+                    }
+                    break;
+            }
+        }
+        hasMoved = true;
+    }
+
+    /**
+     * determines if a space on the board is occupied
+     * by any member of the population
+     * @param x x_coord to check
+     * @param y y_coord to check
+     * @return true or false
+     */
+    private boolean isAdjacentSafe(int x, int y)
+    {
+        for (Critter c : population)
+        {
+            if (c.x_coord == x && c.y_coord == y)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * adjusts the Critter's x and y coordinates according to their direction
+     * basically a long series of switch statements
+     * difference from walk - move farther, larger energy deduction
+     */
+    private void moveRun() {
+        if (!hasMoved) {
+            int x_coordNew = 0;
+            int y_coordNew = 0;
+            boolean xSafe = false;
+            boolean ySafe = false;
+            int newLeftEdgeX = -1;
+            int newTopEdgeY = -1;
+            int newRightEdgeX = -1;
+            int newBottomEdgeY = -1;
+
+            if (Params.world_width - 1 - x_coord == 0) {
+                newLeftEdgeX = 1;
+            } else if (Params.world_width - 1 - x_coord == 1) {
+                newLeftEdgeX = 0;
+            }
+            if (Params.world_height - 1 - y_coord == 0) {
+                newTopEdgeY = 1;
+            } else if (Params.world_height - 1 - y_coord == 1) {
+                newTopEdgeY = 0;
+            }
+
+            if (x_coord == 0) {
+                newRightEdgeX = Params.world_width - 2;
+            } else if (x_coord == 1) {
+                newRightEdgeX = Params.world_width - 1;
+            }
+            if (y_coord == 0) {
+                newBottomEdgeY = Params.world_height - 2;
+            } else if (y_coord == 1) {
+                newBottomEdgeY = Params.world_height - 1;
+            }
+
+            switch (dir) {
+                case 0:
+                    if (isFighting && hasMoved)
+                        return;
+                    if (newLeftEdgeX == 0 || newLeftEdgeX == 1)
+                    {
+                        x_coordNew = newLeftEdgeX;
+                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        {
+                            x_coord = x_coordNew;
+                        }
+                    }
+                    else
+                    {
+                        x_coordNew = x_coord + 2;
+                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        {
+                            x_coord = x_coordNew;
+                        }
+                    }
+                    break;
+                case 1:
+                    if (isFighting && hasMoved)
+                        return;
+                    if (newLeftEdgeX == 0 || newLeftEdgeX == 1) {
+                        x_coordNew = newLeftEdgeX;
+                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        {
+                            xSafe = true;
+                        }
+                        if (y_coord == 0 || y_coord == 1) {
+                            y_coordNew = newBottomEdgeY;
+                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            {
+                                ySafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        } else {
+                            y_coordNew = y_coord - 2;
+                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            {
+                                ySafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+
+                    } else if (y_coord == 0 || y_coord == 1) {
+                        y_coordNew = newBottomEdgeY;
+                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        {
+                            ySafe = true;
+                        }
+                        if (newLeftEdgeX == 0 || newLeftEdgeX == 1) {
+                            x_coordNew = newLeftEdgeX;
+                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            {
+                                xSafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        } else {
+                            x_coordNew = x_coord + 2;
+                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            {
+                                xSafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+                    } else {
+                        x_coordNew = x_coord + 2;
+                        y_coordNew = y_coord - 2;
+                        if (isAdjacentSafe(x_coordNew, y_coordNew))
+                        {
+                            x_coord = x_coordNew;
+                            y_coord = y_coordNew;
+                        }
+                    }
+                    break;
+                case 2:
+                    if (isFighting && hasMoved)
+                        return;
+                    if (y_coord == 0 || y_coord == 1) {
+                        y_coordNew = newBottomEdgeY;
+                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        {
+                            y_coord = y_coordNew;
+                        }
+                    } else {
+                        y_coordNew = y_coord - 2;
+                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        {
+                            y_coord = y_coordNew;
+                        }
+                    }
+                    break;
+                case 3:
+                    if (isFighting && hasMoved)
+                        return;
+                    if (x_coord == 0 || y_coord == 1) {
+                        x_coordNew = newRightEdgeX;
+                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        {
+                            xSafe = true;
+                        }
+                        if (y_coord == 0 || y_coord == 1) {
+                            y_coordNew = newBottomEdgeY;
+                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            {
+                                ySafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        } else {
+                            y_coordNew = y_coord - 2;
+                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            {
+                                ySafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+
+                    } else if (y_coord == 0 || y_coord == 1) {
+                        y_coordNew = newBottomEdgeY;
+                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        {
+                            ySafe = true;
+                        }
+                        if (x_coord == 0 || x_coord == 1) {
+                            x_coordNew = newRightEdgeX;
+                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            {
+                                xSafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        } else {
+                            x_coordNew = x_coord - 2;
+                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            {
+                                xSafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+                    } else {
+                        x_coordNew = x_coord - 2;
+                        y_coordNew = y_coord - 2;
+                        if (isAdjacentSafe(x_coordNew, y_coordNew))
+                        {
+                            x_coord = x_coordNew;
+                            y_coord = y_coordNew;
+                        }
+                    }
+                    break;
+                case 4:
+                    if (isFighting && hasMoved)
+                        return;
+                    if (x_coord == 0 || x_coord == 1)
+                    {
+                        x_coordNew = newRightEdgeX;
+                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        {
+                            x_coord = x_coordNew;
+                        }
+                    }
+                    else
+                    {
+                        x_coordNew = x_coord - 2;
+                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        {
+                            x_coord = x_coordNew;
+                        }
+                    }
+                    break;
+                case 5:
+                    if (isFighting && hasMoved)
+                        return;
+                    if (x_coord == 0 || x_coord == 1) {
+                        x_coordNew = newRightEdgeX;
+                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        {
+                            xSafe = true;
+                        }
+                        if (newTopEdgeY == 0 || newTopEdgeY == 1) {
+                            y_coordNew = newBottomEdgeY;
+                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            {
+                                ySafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        } else {
+                            y_coordNew = y_coord + 2;
+                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            {
+                                ySafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+
+                    } else if (newTopEdgeY == 0 || newTopEdgeY == 1) {
+                        y_coordNew = newTopEdgeY;
+                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        {
+                            ySafe = true;
+                        }
+                        if (x_coord == 0 || x_coord == 1) {
+                            x_coordNew = newRightEdgeX;
+                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            {
+                                xSafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        } else {
+                            x_coordNew = x_coord - 2;
+                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            {
+                                xSafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+                    } else {
+                        x_coordNew = x_coord - 2;
+                        y_coordNew = y_coord + 2;
+                        if (isAdjacentSafe(x_coordNew, y_coordNew))
+                        {
+                            x_coord = x_coordNew;
+                            y_coord = y_coordNew;
+                        }
+                    }
+                    break;
+                case 6:
+                    if (isFighting && hasMoved)
+                        return;
+                    if (newTopEdgeY == 0 || newTopEdgeY == 1)
+                    {
+                        y_coordNew = newTopEdgeY;
+                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        {
+                            y_coord = y_coordNew;
+                        }
+                    }
+                    else
+                    {
+                        y_coordNew = y_coord + 2;
+                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        {
+                            y_coord = y_coordNew;
+                        }
+                    }
+                    break;
+                case 7:
+                    if (isFighting && hasMoved)
+                        return;
+                    if (newLeftEdgeX == 0 || newLeftEdgeX == 1) {
+                        x_coordNew = newLeftEdgeX;
+                        if (isAdjacentSafe(x_coordNew, y_coord))
+                        {
+                            xSafe = true;
+                        }
+                        if (newTopEdgeY == 0 || newTopEdgeY == 1) {
+                            y_coordNew = newTopEdgeY;
+                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            {
+                                ySafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        } else {
+                            y_coordNew = y_coord + 2;
+                            if (isAdjacentSafe(x_coord, y_coordNew))
+                            {
+                                ySafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+
+                    } else if (newTopEdgeY == 0 || newTopEdgeY == 1) {
+                        y_coordNew = newTopEdgeY;
+                        if (isAdjacentSafe(x_coord, y_coordNew))
+                        {
+                            ySafe = true;
+                        }
+                        if (newLeftEdgeX == 0 || newLeftEdgeX == 1) {
+                            x_coordNew = newLeftEdgeX;
+                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            {
+                                xSafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        } else {
+                            x_coordNew = x_coord + 2;
+                            if (isAdjacentSafe(x_coordNew, y_coord))
+                            {
+                                xSafe = true;
+                            }
+                            if (xSafe && ySafe) {
+                                x_coord = x_coordNew;
+                                y_coord = y_coordNew;
+                            }
+                        }
+                    } else {
+                        x_coordNew = x_coord + 2;
+                        y_coordNew = y_coord + 2;
+                        if (isAdjacentSafe(x_coordNew, y_coordNew))
+                        {
+                            x_coord = x_coordNew;
+                            y_coord = y_coordNew;
+                        }
+                    }
+                    break;
+            }
+        }
+        hasMoved = true;
+    }
+
+    /**
+     * actually implements the process of conflict resolution for two critters
+     * @param a the first critter involved in the conflict
+     * @param b the second critter involved in the conflict
+     */
+    private static void fighting(Critter a, Critter b)
+    {
+        boolean aFight = a.fight(b.toString());
+        boolean bFight = b.fight(a.toString());
+
+        if (!aFight && !bFight)
+        {
+            if (!a.toString().equals("@"))
+            {
+                a.moveRun();
+            }
+            if (!b.toString().equals("@"))
+            {
+                b.moveRun();
+            }
+        }
+        if (a.energy > 0 && b.energy > 0 &&
+                a.x_coord == b.x_coord &&
+                a.y_coord == b.y_coord)
+        {
+            int diceA = -1;
+            int diceB = -1;
+            if (!aFight)
+            {
+                diceA = 0;
+            }
+            else
+            {
+                diceA = a.getRandomInt(a.energy);
+            }
+            if (!bFight)
+            {
+                diceB = 0;
+            }
+            else
+            {
+                diceB = b.getRandomInt(b.energy);
+            }
+
+            if (diceA > diceB)
+            {
+                a.energy += Math.round(b.energy / 2);
+                b.energy = 0;
+            }
+            else if (diceB > diceA || diceA == diceB)
+            {
+                b.energy += Math.round(a.energy / 2);
+                a.energy = 0;
+            }
+        }
+        return;
+    }
 	
 }

@@ -12,6 +12,7 @@
 package assignment5;
 import assignment5.Critter.CritterShape;
 import assignment5.Critter.TestCritter;
+import javafx.scene.paint.Color;
 
 /**
  * Critter3 runs and fights if 
@@ -22,6 +23,8 @@ import assignment5.Critter.TestCritter;
  */
 public class Critter3 extends TestCritter
 {
+	@Override
+	public javafx.scene.paint.Color viewFillColor() {return Color.AQUAMARINE; }
 	@Override
 	public CritterShape viewShape()
 	{

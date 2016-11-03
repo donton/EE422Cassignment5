@@ -11,6 +11,8 @@
  */
 package assignment5;
 
+import javafx.scene.paint.Color;
+
 /**
  * 
  * @author Domino Weir
@@ -23,6 +25,9 @@ public class Critter1 extends Critter
 	{
 		return Critter.CritterShape.SQUARE;
 	}
+
+	@Override
+    public javafx.scene.paint.Color viewFillColor() {return Color.BLACK; }
 
     @Override
     public String toString() { return "1"; }

@@ -12,6 +12,7 @@
 package assignment5;
 import assignment5.Critter.CritterShape;
 import assignment5.Critter.TestCritter;
+import javafx.scene.paint.Color;
 
 /**
  * Critter4 runs in direction 1 every
@@ -21,6 +22,9 @@ import assignment5.Critter.TestCritter;
  */
 public class Critter4 extends TestCritter
 {
+    @Override
+    public javafx.scene.paint.Color viewFillColor() {return Color.FORESTGREEN; }
+
 	@Override
 	public CritterShape viewShape()
 	{

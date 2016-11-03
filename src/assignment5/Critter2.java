@@ -12,6 +12,7 @@
 package assignment5;
 import assignment5.Critter.CritterShape;
 import assignment5.Critter.TestCritter;
+import javafx.scene.paint.Color;
 
 /**
  * 
@@ -20,6 +21,9 @@ import assignment5.Critter.TestCritter;
  */
 public class Critter2 extends Critter
 {
+    @Override
+    public javafx.scene.paint.Color viewFillColor() {return Color.DARKMAGENTA; }
+
 	@Override
 	public CritterShape viewShape()
 	{

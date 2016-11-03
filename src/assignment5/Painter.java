@@ -27,11 +27,23 @@ public class Painter {
 
         switch(shapeIndex) {
             case 0: s = new Rectangle(size, size);
-                s.setFill(critter.viewFillColor()); break;
+                s.setFill(critter.viewFillColor());
+                break;
             case 1: s = new Circle(size/2);
-                s.setFill(critter.viewFillColor()); break;
+                s.setFill(critter.viewFillColor());
+                break;
             case 2: s = new Circle(size);
-                s.setFill(Color.BLUE);
+                s.setFill(critter.viewFillColor());
+                break;
+            case 3: s = new Rectangle(size/2, size/2);
+                s.setFill(critter.viewFillColor());
+                break;
+            case 4: s = new Rectangle(size, size*2);
+                s.setFill(critter.viewFillColor());
+                break;
+            case 5: s = new Rectangle(size/2, size/2);
+                s.setFill(critter.viewFillColor());
+                break;
         }
         // set the outline of the shape
         s.setStroke(critter.viewOutlineColor()); // outline
