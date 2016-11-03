@@ -32,16 +32,13 @@ public class Painter {
             case 1: s = new Circle(size/2);
                 s.setFill(critter.viewFillColor());
                 break;
-            case 2: s = new Circle(size);
+            case 2: s = new Polygon(20, 0, 27, 15, 13, 15 );
                 s.setFill(critter.viewFillColor());
                 break;
-            case 3: s = new Rectangle(size/2, size/2);
+            case 3: s = new Polygon(20, 0, 30, 12, 20, 24, 10, 12);
                 s.setFill(critter.viewFillColor());
                 break;
-            case 4: s = new Rectangle(size, size*2);
-                s.setFill(critter.viewFillColor());
-                break;
-            case 5: s = new Rectangle(size/2, size/2);
+            case 4: s = new Polygon(20, 0, 30, 12, 30, 24, 10, 24, 10, 12);
                 s.setFill(critter.viewFillColor());
                 break;
         }

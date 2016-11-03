@@ -28,7 +28,7 @@ public class Critter3 extends TestCritter
 	@Override
 	public CritterShape viewShape()
 	{
-		return Critter.CritterShape.TRIANGLE;
+		return CritterShape.DIAMOND;
 	}
 	
 	@Override

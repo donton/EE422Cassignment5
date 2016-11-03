@@ -27,7 +27,7 @@ public class Critter2 extends Critter
 	@Override
 	public CritterShape viewShape()
 	{
-		return Critter.CritterShape.CIRCLE;
+		return CritterShape.TRIANGLE;
 	}
     @Override
     public String toString() { return "2"; }
