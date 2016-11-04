@@ -47,7 +47,9 @@ public class Main extends Application {
             makeButton = new Button("Make New Critters");
             stepButton = new Button("World Step");
             quitButton = new Button("Quit");
-
+            
+            grid.setStyle("-fx-background-color: #e9ecee;");
+            
             makeButton.setOnAction(e->handleMakeAction());
             stepButton.setOnAction(e->handleStepAction());
             quitButton.setOnAction(e->handleQuitAction());

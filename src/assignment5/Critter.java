@@ -73,7 +73,7 @@ public abstract class Critter {
     private boolean hasMoved = false;
     private boolean isFighting = false;
     private int dir = 0;
-    private static String lookString = new String();
+    private String lookString = new String();
 	
 	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
 	static {
@@ -85,36 +85,29 @@ public abstract class Critter {
 			dir = direction;
 	        moveWalk();
 	        energy -= Params.look_energy_cost;
-	        if (getLookString().equals(null)) {
+	        if (lookString.equals(null)) {
 	        	if (dir < 4) { dir += 4;}
 	        	else {dir -= 4;}
 	        	moveWalk();
 	        	return null;
 	        }
-	        return getLookString();
+	        return lookString;
 		}
 		if (steps) {
 			dir = direction;
 	        moveRun();
 	        energy -= Params.look_energy_cost;
-	        if (getLookString().equals(null)) {
+	        if (lookString.equals(null)) {
 	        	if (dir < 4) { dir += 4;}
 	        	else {dir -= 4;}
 	        	moveRun();
 	        	return null;
 	        }
-	        return getLookString();
+	        return lookString;
 		}
         return null;		
 	}
 	
-	protected static String getLookString() {
-		return lookString;
-	}
-
-	protected static void setLookString(String string) {
-		lookString = string;
-	}
 
 /** move the critter and deduct the appropriate energy cost
      * @param direction is the direction the child will move
@@ -792,9 +785,11 @@ public abstract class Critter {
         {
             if (c.x_coord == x && c.y_coord == y)
             {
+            	lookString = c.toString();
                 return false;
             }
         }
+        lookString = null;
         return true;
     }
 
