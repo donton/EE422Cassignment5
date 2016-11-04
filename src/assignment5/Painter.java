@@ -38,7 +38,7 @@ public class Painter {
             case 3: s = new Polygon(20, 0, 30, 12, 20, 24, 10, 12);
                 s.setFill(critter.viewFillColor());
                 break;
-            case 4: s = new Polygon(20, 0, 30, 12, 30, 24, 10, 24, 10, 12);
+            case 4: s = new Polygon(20, 5,   25, 12,   30, 12,   25, 16,   27, 22,   20, 18,   13, 22,   15, 16,   10, 12,   15, 12);
                 s.setFill(critter.viewFillColor());
                 break;
         }
@@ -58,6 +58,7 @@ public class Painter {
             Critter.CritterShape shape = critter.viewShape();
             Shape s = getIcon(critter, shape.ordinal());	// convert the index to an icon.
             Main.grid.add(s, critter.getX(), critter.getY()); // add the shape to the grid.
+            Main.grid.setColumnIndex(s, critter.getX());
         }
 
     }
