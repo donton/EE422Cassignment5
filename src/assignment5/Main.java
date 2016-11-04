@@ -41,8 +41,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 
-			grid.setGridLinesVisible(true);
-
+            grid.setGridLinesVisible(true);
 
             makeButton = new Button("Make New Critters");
             stepButton = new Button("World Step");
