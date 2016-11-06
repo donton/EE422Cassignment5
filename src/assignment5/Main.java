@@ -28,26 +28,36 @@ import javafx.stage.Stage;
 public class Main extends Application {
 	static GridPane grid = new GridPane();
     Button makeButton, stepButton, quitButton;
-    VBox buttonBox;
-    VBox statsBox;
-    VBox makeBox;
-    Label enterType;
-    TextField type;
-    Label enterNumber;
-    TextField number;
-    Region buffer;
+    VBox buttonBox, statsBox, makeBox;
+    Label enterType, enterNumber;
+    TextField type, number;
+    Region buffer1, buffer2;
 
 	@Override
 	public void start(Stage primaryStage) {
 		try {
 
-            grid.setGridLinesVisible(true);
+            grid.setStyle("-fx-background-color: #e9ecee;");
+            grid.setPadding(new Insets(5));
+            grid.setHgap(8);
+            grid.setVgap(8);
+            grid.setMaxSize(Params.world_width, Params.world_height);
+
+            for (int j = 0; j < grid.getHeight(); j++) {
+                ColumnConstraints cc = new ColumnConstraints(30);
+                cc.setHgrow(Priority.NEVER);
+                grid.getColumnConstraints().add(cc);
+            }
+
+            for (int j = 0; j < grid.getWidth(); j++) {
+                RowConstraints rc = new RowConstraints(30);
+                rc.setVgrow(Priority.NEVER);
+                grid.getRowConstraints().add(rc);
+            }
 
             makeButton = new Button("Make New Critters");
             stepButton = new Button("World Step");
             quitButton = new Button("Quit");
-            
-            grid.setStyle("-fx-background-color: #e9ecee;");
             
             makeButton.setOnAction(e->handleMakeAction());
             stepButton.setOnAction(e->handleStepAction());
@@ -61,9 +71,10 @@ public class Main extends Application {
 
             makeBox = new VBox(enterType, type, enterNumber, number, makeButton);
 
-            buffer = new Region();
+            buffer1 = new Region();
+            buffer2 = new Region();
 
-            buttonBox = new VBox(makeBox, buffer, stepButton);
+            buttonBox = new VBox(makeBox, buffer1, stepButton, buffer2, quitButton);
             buttonBox.setSpacing(10);
             buttonBox.setPadding(new Insets(5));
 
@@ -72,7 +83,6 @@ public class Main extends Application {
             t.setText("World Statistics");
             statsBox = new VBox(t);
 
-
             //create the BorderPane
             BorderPane root = new BorderPane();
             root.setPadding(new Insets(10));
@@ -80,8 +90,6 @@ public class Main extends Application {
             //add components to regions of BorderPane
             root.setLeft(buttonBox);
             root.setRight(statsBox);
-            root.setBottom(quitButton);
-
             root.setCenter(grid);
 
             Scene scene = new Scene(root, 500, 500);

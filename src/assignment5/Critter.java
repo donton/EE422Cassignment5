@@ -79,7 +79,12 @@ public abstract class Critter {
 	static {
 		myPackage = Critter.class.getPackage().toString().split(" ")[1];
 	}
-	
+
+    /** allow the critter to look before moving
+     * @param direction is the direction the child is moving
+     * @param steps is type of movement - walking or running
+     * @return a string describing the result of the scan
+     */
 	protected String look(int direction, boolean steps) {
 		if (!steps) {
 			dir = direction;

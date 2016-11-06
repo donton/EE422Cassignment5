@@ -11,6 +11,10 @@
  */
 package assignment5;
 
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 
@@ -24,21 +28,29 @@ public class Painter {
     static Shape getIcon(Critter critter, int shapeIndex) {
         Shape s = null;
         int size = 10;
+        int x = critter.getX();
+        int y = critter.getY();
 
         switch(shapeIndex) {
-            case 0: s = new Rectangle(size, size);
+            case 0: s = new Rectangle(x % Params.world_width, y % Params.world_height, (x + size) % Params.world_width, (y + size) % Params.world_height);
                 s.setFill(critter.viewFillColor());
                 break;
             case 1: s = new Circle(size/2);
                 s.setFill(critter.viewFillColor());
                 break;
-            case 2: s = new Polygon(20, 0, 27, 15, 13, 15 );
+            case 2: s = new Polygon((20 + x) % Params.world_width, y % Params.world_height, (27 + x) % Params.world_width, (15 + y) % Params.world_height,
+                    (13 + x) % Params.world_width, (15 + y) % Params.world_height);
                 s.setFill(critter.viewFillColor());
                 break;
-            case 3: s = new Polygon(20, 0, 30, 12, 20, 24, 10, 12);
+            case 3: s = new Polygon((20 + x) % Params.world_width, y % Params.world_height, (30 + x) % Params.world_width, (12 + y) % Params.world_height,
+                    (20 + x) % Params.world_width, (24 + y) % Params.world_height, (10 + x) % Params.world_width, (12 + y) % Params.world_height);
                 s.setFill(critter.viewFillColor());
                 break;
-            case 4: s = new Polygon(20, 5,   25, 12,   30, 12,   25, 16,   27, 22,   20, 18,   13, 22,   15, 16,   10, 12,   15, 12);
+            case 4: s = new Polygon((20 + x) % Params.world_width, (5 + y) % Params.world_height, (25 + x) % Params.world_width, (12 + y) % Params.world_height,
+                    (30 + x) % Params.world_width, (12 + y) % Params.world_height, (25 + x) % Params.world_width, (16 + y) % Params.world_height,
+                    (27 + x) % Params.world_width, (22 + y) % Params.world_height, (20 + x) % Params.world_width, (18 + y) % Params.world_height,
+                    (13 + x) % Params.world_width, (22 + y) % Params.world_height, (15 + x) % Params.world_width, (16 + y) % Params.world_height,
+                    (10 + x) % Params.world_width, (12 + y) % Params.world_height, (15 + x) % Params.world_width, (12 + y) % Params.world_height);
                 s.setFill(critter.viewFillColor());
                 break;
         }
@@ -57,8 +69,7 @@ public class Painter {
         {
             Critter.CritterShape shape = critter.viewShape();
             Shape s = getIcon(critter, shape.ordinal());	// convert the index to an icon.
-            Main.grid.add(s, critter.getX(), critter.getY()); // add the shape to the grid.
-            Main.grid.setColumnIndex(s, critter.getX());
+            Main.grid.add(s, critter.getY(), critter.getX()); // add the shape to the grid.
         }
 
     }
