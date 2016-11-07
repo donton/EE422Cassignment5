@@ -20,7 +20,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
@@ -34,6 +36,8 @@ public class Main extends Application {
     Label enterTypeCont, enterTypeStats, enterNumber;
     TextField typeCont, typeStats, number;
     Region buffer1, buffer2;
+    CheckBox cb;
+    static TextArea textArea;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -89,7 +93,13 @@ public class Main extends Application {
             Text statsTitle = new Text();
             statsTitle.setFont(new Font(20));
             statsTitle.setText("World Statistics");
-            statsBox = new VBox(statsTitle, enterTypeStats, typeStats);
+            
+            cb = new CheckBox("Select to see Critter's Stats");
+            cb.setIndeterminate(false);
+            
+            textArea = new TextArea();
+            
+            statsBox = new VBox(statsTitle, enterTypeStats, typeStats, cb, textArea);
             statsBox.setSpacing(10);
             statsBox.setPadding(new Insets(10));
 
@@ -150,6 +160,11 @@ public class Main extends Application {
     public void handleStepAction()
     {
         Critter.worldTimeStep();
+        
+        if (cb.isSelected()){
+        	System.out.println("Is True");
+        }
+        
         Critter.runStats(Critter.getPop());
         Painter.displayWorld();
     }

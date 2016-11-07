@@ -257,10 +257,10 @@ public abstract class Critter {
         }
         String prefix = "";
         for (String s : critter_count.keySet()) {
-            System.out.print(prefix + s + ":" + critter_count.get(s));
+            Main.textArea.setText(prefix + s + ":" + critter_count.get(s));
             prefix = ", ";
         }
-        System.out.println();
+        //Main.textArea.setText("\n");
     }
 
     /**
