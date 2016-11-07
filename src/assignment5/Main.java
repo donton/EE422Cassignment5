@@ -33,14 +33,10 @@ import static javafx.scene.layout.Priority.ALWAYS;
 
 public class Main extends Application {
 	static GridPane grid = new GridPane();
-<<<<<<< HEAD
-    Button makeButton, stepButton, step100Button, step1000Button, quitButton, statsButton;
-=======
-    Button makeButton, stepButton, quitButton, statsButton, allButton;
->>>>>>> 6a68674aae20e8ab8a8138136fce156c65494703
+    Button makeButton, stepButton, moreStepsButton, quitButton, statsButton, allButton;
     VBox buttonBox, statsBox, makeBox;
-    Label enterTypeCont, enterTypeStats, enterNumber, statsResults;
-    TextField typeCont, typeStats, number;
+    Label enterTypeCont, enterTypeStats, enterNumber, statsResults, enterSteps;
+    TextField typeCont, typeStats, number, numSteps;
     Region buffer1, buffer2;
     static Text textArea;
 
@@ -68,19 +64,20 @@ public class Main extends Application {
             }
 
             makeButton = new Button("Make New Critters");
-            stepButton = new Button("World Step");
-            step100Button = new Button("World Step 100");
-            step1000Button = new Button("World Step 1000");
+            stepButton = new Button("One World Step");
+            moreStepsButton = new Button("World Steps");
             quitButton = new Button("Quit");
             
             makeButton.setOnAction(e->handleMakeAction());
             stepButton.setOnAction(e->handleStepAction());
-            step100Button.setOnAction(e->handleStep100Action());
-            step1000Button.setOnAction(e->handleStep1000Action());
+            moreStepsButton.setOnAction(e->handleMoreStepsAction());
             quitButton.setOnAction(e->handleQuitAction());
 
             enterTypeCont = new Label("Enter A Valid Critter Name: ");
             typeCont = new TextField();
+            
+            enterSteps = new Label("OR\n\nEnter A Step Number: ");
+            numSteps = new TextField();
             
             enterTypeStats = new Label("Enter A Valid Critter Name: ");
             typeStats = new TextField();
@@ -96,7 +93,7 @@ public class Main extends Application {
             buffer1 = new Region();
             buffer2 = new Region();
             
-            buttonBox = new VBox(makeBox, buffer1, stepButton, step100Button, step1000Button, buffer2, quitButton);
+            buttonBox = new VBox(makeBox, buffer1, stepButton, enterSteps, numSteps, moreStepsButton, buffer2, quitButton);
             buttonBox.setSpacing(10);
             buttonBox.setPadding(new Insets(10));
 
@@ -177,18 +174,12 @@ public class Main extends Application {
         Painter.displayWorld();
     }
 
-    public void handleStep100Action()
+    public void handleMoreStepsAction()
     {
-        for (int i = 0; i < 100; i ++) {
+        for (int i = 0; i < Integer.parseInt(numSteps.getText()); i ++) {
         	Critter.worldTimeStep();
         }
-    }
-    
-    public void handleStep1000Action()
-    {
-        for (int i = 0; i < 1000; i ++) {
-        	Critter.worldTimeStep();
-        }
+        Painter.displayWorld();
     }
     
     public void handleQuitAction()
