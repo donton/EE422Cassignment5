@@ -32,25 +32,23 @@ public class Painter {
         int y = critter.getY();
 
         switch(shapeIndex) {
-            case 0: s = new Rectangle(x % Params.world_width, y % Params.world_height, (x + size) % Params.world_width, (y + size) % Params.world_height);
+            case 0: s = new Rectangle(x, y, (x + size), (y + size));
                 s.setFill(critter.viewFillColor());
                 break;
             case 1: s = new Circle(size/2);
                 s.setFill(critter.viewFillColor());
                 break;
-            case 2: s = new Polygon((20 + x) % Params.world_width, y % Params.world_height, (27 + x) % Params.world_width, (15 + y) % Params.world_height,
-                    (13 + x) % Params.world_width, (15 + y) % Params.world_height);
+            case 2: s = new Polygon((20 + x), y, (27 + x), (15 + y), (13 + x), (15 + y));
                 s.setFill(critter.viewFillColor());
                 break;
-            case 3: s = new Polygon((20 + x) % Params.world_width, y % Params.world_height, (30 + x) % Params.world_width, (12 + y) % Params.world_height,
-                    (20 + x) % Params.world_width, (24 + y) % Params.world_height, (10 + x) % Params.world_width, (12 + y) % Params.world_height);
+            case 3: s = new Polygon((20 + x), y, (30 + x), (12 + y), (20 + x), (24 + y), (10 + x), (12 + y));
                 s.setFill(critter.viewFillColor());
                 break;
-            case 4: s = new Polygon((20 + x) % Params.world_width, (5 + y) % Params.world_height, (25 + x) % Params.world_width, (12 + y) % Params.world_height,
-                    (30 + x) % Params.world_width, (12 + y) % Params.world_height, (25 + x) % Params.world_width, (16 + y) % Params.world_height,
-                    (27 + x) % Params.world_width, (22 + y) % Params.world_height, (20 + x) % Params.world_width, (18 + y) % Params.world_height,
-                    (13 + x) % Params.world_width, (22 + y) % Params.world_height, (15 + x) % Params.world_width, (16 + y) % Params.world_height,
-                    (10 + x) % Params.world_width, (12 + y) % Params.world_height, (15 + x) % Params.world_width, (12 + y) % Params.world_height);
+            case 4: s = new Polygon((20 + x), (5 + y), (25 + x), (12 + y),
+                    (30 + x), (12 + y), (25 + x), (16 + y),
+                    (27 + x), (22 + y), (20 + x), (18 + y),
+                    (13 + x), (22 + y), (15 + x), (16 + y),
+                    (10 + x), (12 + y), (15 + x), (12 + y));
                 s.setFill(critter.viewFillColor());
                 break;
         }
@@ -69,7 +67,7 @@ public class Painter {
         {
             Critter.CritterShape shape = critter.viewShape();
             Shape s = getIcon(critter, shape.ordinal());	// convert the index to an icon.
-            Main.grid.add(s, critter.getY(), critter.getX()); // add the shape to the grid.
+            Main.grid.add(s, critter.getX(), critter.getY(), 1, 1); // add the shape to the grid.
         }
 
     }

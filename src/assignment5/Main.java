@@ -31,12 +31,13 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 	static GridPane grid = new GridPane();
-    Button makeButton, stepButton, quitButton;
+    Button makeButton, stepButton, quitButton, statsButton;
     VBox buttonBox, statsBox, makeBox;
     Label enterTypeCont, enterTypeStats, enterNumber;
     TextField typeCont, typeStats, number;
     Region buffer1, buffer2;
     CheckBox cb;
+    static AnchorPane world = new AnchorPane();
     static TextArea textArea;
 
 	@Override
@@ -45,21 +46,31 @@ public class Main extends Application {
 
             grid.setStyle("-fx-background-color: #e9ecee;");
             grid.setPadding(new Insets(5));
-            grid.setHgap(8);
-            grid.setVgap(8);
-            grid.setMaxSize(Params.world_width, Params.world_height);
+            grid.setPrefSize(Params.world_width, Params.world_height);
+            grid.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 
-            for (int j = 0; j < grid.getHeight(); j++) {
-                ColumnConstraints cc = new ColumnConstraints(30);
-                cc.setHgrow(Priority.NEVER);
+            final int width = Params.world_width;
+            final int height = Params.world_height;
+
+            for (int j = 0; j < width; j++) {
+                ColumnConstraints cc = new ColumnConstraints();
+                cc.setHgrow(Priority.ALWAYS);
                 grid.getColumnConstraints().add(cc);
             }
 
-            for (int j = 0; j < grid.getWidth(); j++) {
-                RowConstraints rc = new RowConstraints(30);
-                rc.setVgrow(Priority.NEVER);
+            for (int j = 0; j < height; j++) {
+                RowConstraints rc = new RowConstraints();
+                rc.setVgrow(Priority.ALWAYS);
                 grid.getRowConstraints().add(rc);
             }
+
+            world.setPrefSize(width, height);
+            world.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+            world.getChildren().addAll(grid);
+            world.setTopAnchor(grid, 0.0);
+            world.setLeftAnchor(grid, 0.0);
+            world.setRightAnchor(grid, 0.0);
+            world.setBottomAnchor(grid, 0.0);
 
             makeButton = new Button("Make New Critters");
             stepButton = new Button("World Step");
@@ -94,12 +105,12 @@ public class Main extends Application {
             statsTitle.setFont(new Font(20));
             statsTitle.setText("World Statistics");
             
-            cb = new CheckBox("Select to see Critter's Stats");
-            cb.setIndeterminate(false);
+            statsButton = new Button("See Stats");
+            statsButton.setOnAction(e->handleStatsAction());
             
             textArea = new TextArea();
             
-            statsBox = new VBox(statsTitle, enterTypeStats, typeStats, cb, textArea);
+            statsBox = new VBox(statsTitle, enterTypeStats, typeStats, statsButton, textArea);
             statsBox.setSpacing(10);
             statsBox.setPadding(new Insets(10));
 
@@ -110,9 +121,9 @@ public class Main extends Application {
             //add components to regions of BorderPane
             root.setLeft(buttonBox);
             root.setRight(statsBox);
-            root.setCenter(grid);
+            root.setCenter(world);
 
-            Scene scene = new Scene(root, 500, 500);
+            Scene scene = new Scene(root, 800, 600);
             primaryStage.setTitle("Critters 2!");
             primaryStage.setScene(scene);
             primaryStage.show();
@@ -160,18 +171,21 @@ public class Main extends Application {
     public void handleStepAction()
     {
         Critter.worldTimeStep();
-        
-        if (cb.isSelected()){
-        	System.out.println("Is True");
-        }
-        
-        Critter.runStats(Critter.getPop());
         Painter.displayWorld();
     }
 
     public void handleQuitAction()
     {
     	Platform.exit();
+    }
+
+    public void handleStatsAction(){
+        if (typeStats.getText() != null && typeStats.getText().isEmpty() == false)
+            try {
+                Critter.runStats(Critter.getInstances(typeStats.getText()));
+            }catch (InvalidCritterException e){
+                return;
+        }
     }
 
 }
