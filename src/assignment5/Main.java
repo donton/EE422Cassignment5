@@ -29,16 +29,16 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import static javafx.scene.layout.Priority.ALWAYS;
+
 public class Main extends Application {
 	static GridPane grid = new GridPane();
-    Button makeButton, stepButton, quitButton, statsButton;
+    Button makeButton, stepButton, quitButton, statsButton, allButton;
     VBox buttonBox, statsBox, makeBox;
-    Label enterTypeCont, enterTypeStats, enterNumber;
+    Label enterTypeCont, enterTypeStats, enterNumber, statsResults;
     TextField typeCont, typeStats, number;
     Region buffer1, buffer2;
-    CheckBox cb;
-    static AnchorPane world = new AnchorPane();
-    static TextArea textArea;
+    static Text textArea;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -47,30 +47,21 @@ public class Main extends Application {
             grid.setStyle("-fx-background-color: #e9ecee;");
             grid.setPadding(new Insets(5));
             grid.setPrefSize(Params.world_width, Params.world_height);
-            grid.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 
             final int width = Params.world_width;
             final int height = Params.world_height;
 
             for (int j = 0; j < width; j++) {
                 ColumnConstraints cc = new ColumnConstraints();
-                cc.setHgrow(Priority.ALWAYS);
+                cc.setHgrow(ALWAYS);
                 grid.getColumnConstraints().add(cc);
             }
 
             for (int j = 0; j < height; j++) {
                 RowConstraints rc = new RowConstraints();
-                rc.setVgrow(Priority.ALWAYS);
+                rc.setVgrow(ALWAYS);
                 grid.getRowConstraints().add(rc);
             }
-
-            world.setPrefSize(width, height);
-            world.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
-            world.getChildren().addAll(grid);
-            world.setTopAnchor(grid, 0.0);
-            world.setLeftAnchor(grid, 0.0);
-            world.setRightAnchor(grid, 0.0);
-            world.setBottomAnchor(grid, 0.0);
 
             makeButton = new Button("Make New Critters");
             stepButton = new Button("World Step");
@@ -104,13 +95,17 @@ public class Main extends Application {
             Text statsTitle = new Text();
             statsTitle.setFont(new Font(20));
             statsTitle.setText("World Statistics");
-            
-            statsButton = new Button("See Stats");
+
+            textArea = new Text("");
+            typeStats.setPrefColumnCount(30);
+
+            statsResults = new Label("Results:");
+            allButton = new Button ("View World Stats");
+            allButton.setOnAction(e->handleWorldStatsAction());
+            statsButton = new Button("View Stats");
             statsButton.setOnAction(e->handleStatsAction());
             
-            textArea = new TextArea();
-            
-            statsBox = new VBox(statsTitle, enterTypeStats, typeStats, statsButton, textArea);
+            statsBox = new VBox(statsTitle, allButton, enterTypeStats, typeStats, statsButton, statsResults, textArea);
             statsBox.setSpacing(10);
             statsBox.setPadding(new Insets(10));
 
@@ -121,7 +116,7 @@ public class Main extends Application {
             //add components to regions of BorderPane
             root.setLeft(buttonBox);
             root.setRight(statsBox);
-            root.setCenter(world);
+            root.setCenter(grid);
 
             Scene scene = new Scene(root, 800, 600);
             primaryStage.setTitle("Critters 2!");
@@ -186,6 +181,10 @@ public class Main extends Application {
             }catch (InvalidCritterException e){
                 return;
         }
+    }
+
+    public void handleWorldStatsAction(){
+        Critter.runStats(Critter.getPop());
     }
 
 }
