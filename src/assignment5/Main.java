@@ -93,6 +93,7 @@ public class Main extends Application {
             root.setCenter(grid);
 
             Scene scene = new Scene(root, 500, 500);
+            primaryStage.setTitle("Critters 2!");
             primaryStage.setScene(scene);
             primaryStage.show();
 
