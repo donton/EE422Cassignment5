@@ -29,8 +29,8 @@ public class Main extends Application {
 	static GridPane grid = new GridPane();
     Button makeButton, stepButton, quitButton;
     VBox buttonBox, statsBox, makeBox;
-    Label enterType, enterNumber;
-    TextField type, number;
+    Label enterTypeCont, enterTypeStats, enterNumber;
+    TextField typeCont, typeStats, number;
     Region buffer1, buffer2;
 
 	@Override
@@ -63,25 +63,32 @@ public class Main extends Application {
             stepButton.setOnAction(e->handleStepAction());
             quitButton.setOnAction(e->handleQuitAction());
 
-            enterType = new Label("Enter A Valid Critter Name: ");
-            type = new TextField();
+            enterTypeCont = new Label("Enter A Valid Critter Name: ");
+            typeCont = new TextField();
+            
+            enterTypeStats = new Label("Enter A Valid Critter Name: ");
+            typeStats = new TextField();
 
             enterNumber = new Label("How many?");
             number = new TextField();
 
-            makeBox = new VBox(enterType, type, enterNumber, number, makeButton);
+            Text controlTitle = new Text();
+            controlTitle.setFont(new Font(20));
+            controlTitle.setText("Controller");
+            makeBox = new VBox(controlTitle, enterTypeCont, typeCont, enterNumber, number, makeButton);
 
             buffer1 = new Region();
             buffer2 = new Region();
 
+            
             buttonBox = new VBox(makeBox, buffer1, stepButton, buffer2, quitButton);
             buttonBox.setSpacing(10);
             buttonBox.setPadding(new Insets(5));
 
-            Text t = new Text();
-            t.setFont(new Font(20));
-            t.setText("World Statistics");
-            statsBox = new VBox(t);
+            Text statsTitle = new Text();
+            statsTitle.setFont(new Font(20));
+            statsTitle.setText("World Statistics");
+            statsBox = new VBox(statsTitle, enterTypeStats, typeStats);
 
             //create the BorderPane
             BorderPane root = new BorderPane();
@@ -110,7 +117,7 @@ public class Main extends Application {
 	public void handleMakeAction()
     {
         Integer numCritters;
-        if (type.getText() != null && number.getText().isEmpty() == false)
+        if (typeCont.getText() != null && number.getText().isEmpty() == false)
         {
             if (number.getText() == null | number.getText().isEmpty())
             {
@@ -124,7 +131,7 @@ public class Main extends Application {
             {
                 try
                 {
-                Critter.makeCritter(type.getText().toString());
+                Critter.makeCritter(typeCont.getText().toString());
                 }
                 catch (InvalidCritterException e)
                 {
