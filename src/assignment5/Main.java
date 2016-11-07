@@ -12,6 +12,8 @@
 
 package assignment5;
 
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -79,16 +81,17 @@ public class Main extends Application {
 
             buffer1 = new Region();
             buffer2 = new Region();
-
             
             buttonBox = new VBox(makeBox, buffer1, stepButton, buffer2, quitButton);
             buttonBox.setSpacing(10);
-            buttonBox.setPadding(new Insets(5));
+            buttonBox.setPadding(new Insets(10));
 
             Text statsTitle = new Text();
             statsTitle.setFont(new Font(20));
             statsTitle.setText("World Statistics");
             statsBox = new VBox(statsTitle, enterTypeStats, typeStats);
+            statsBox.setSpacing(10);
+            statsBox.setPadding(new Insets(10));
 
             //create the BorderPane
             BorderPane root = new BorderPane();
@@ -147,6 +150,7 @@ public class Main extends Application {
     public void handleStepAction()
     {
         Critter.worldTimeStep();
+        Critter.runStats(Critter.getPop());
         Painter.displayWorld();
     }
 
