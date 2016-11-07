@@ -76,7 +76,7 @@ public class Main extends Application {
             enterTypeCont = new Label("Enter A Valid Critter Name: ");
             typeCont = new TextField();
             
-            enterSteps = new Label("OR\n\nEnter A Step Number: ");
+            enterSteps = new Label("OR\n\nEnter A Valid Step Number: ");
             numSteps = new TextField();
             
             enterTypeStats = new Label("Enter A Valid Critter Name: ");
