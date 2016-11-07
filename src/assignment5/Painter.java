@@ -20,6 +20,8 @@ import javafx.scene.shape.*;
 
 import java.util.ArrayList;
 
+import static javafx.scene.layout.Priority.ALWAYS;
+
 public class Painter {
 
     /*
@@ -68,6 +70,8 @@ public class Painter {
             Critter.CritterShape shape = critter.viewShape();
             Shape s = getIcon(critter, shape.ordinal());	// convert the index to an icon.
             Main.grid.add(s, critter.getX(), critter.getY(), 1, 1); // add the shape to the grid.
+            Main.grid.setHgrow(s, ALWAYS);
+            Main.grid.setVgrow(s, ALWAYS);
         }
 
     }
