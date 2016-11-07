@@ -31,7 +31,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 	static GridPane grid = new GridPane();
-    Button makeButton, stepButton, quitButton, statsButton;
+    Button makeButton, stepButton, step100Button, step1000Button, quitButton, statsButton;
     VBox buttonBox, statsBox, makeBox;
     Label enterTypeCont, enterTypeStats, enterNumber;
     TextField typeCont, typeStats, number;
@@ -74,10 +74,14 @@ public class Main extends Application {
 
             makeButton = new Button("Make New Critters");
             stepButton = new Button("World Step");
+            step100Button = new Button("World Step 100");
+            step1000Button = new Button("World Step 1000");
             quitButton = new Button("Quit");
             
             makeButton.setOnAction(e->handleMakeAction());
             stepButton.setOnAction(e->handleStepAction());
+            step100Button.setOnAction(e->handleStep100Action());
+            step1000Button.setOnAction(e->handleStep1000Action());
             quitButton.setOnAction(e->handleQuitAction());
 
             enterTypeCont = new Label("Enter A Valid Critter Name: ");
@@ -97,7 +101,7 @@ public class Main extends Application {
             buffer1 = new Region();
             buffer2 = new Region();
             
-            buttonBox = new VBox(makeBox, buffer1, stepButton, buffer2, quitButton);
+            buttonBox = new VBox(makeBox, buffer1, stepButton, step100Button, step1000Button, buffer2, quitButton);
             buttonBox.setSpacing(10);
             buttonBox.setPadding(new Insets(10));
 
@@ -174,6 +178,20 @@ public class Main extends Application {
         Painter.displayWorld();
     }
 
+    public void handleStep100Action()
+    {
+        for (int i = 0; i < 100; i ++) {
+        	Critter.worldTimeStep();
+        }
+    }
+    
+    public void handleStep1000Action()
+    {
+        for (int i = 0; i < 1000; i ++) {
+        	Critter.worldTimeStep();
+        }
+    }
+    
     public void handleQuitAction()
     {
     	Platform.exit();
