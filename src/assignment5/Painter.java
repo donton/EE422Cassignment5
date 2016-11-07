@@ -28,16 +28,26 @@ public class Painter {
      * Returns a square or a circle, according to shapeIndex
      */
     static Shape getIcon(Critter critter, int shapeIndex) {
+
+        /*
+        public enum CritterShape {
+            CIRCLE,
+            SQUARE,
+            TRIANGLE,
+            DIAMOND,
+            STAR
+        }
+         */
         Shape s = null;
         int size = 10;
         int x = critter.getX();
         int y = critter.getY();
 
         switch(shapeIndex) {
-            case 0: s = new Rectangle(x, y, (x + size), (y + size));
+            case 0: s = new Circle(x, y, size/2);
                 s.setFill(critter.viewFillColor());
                 break;
-            case 1: s = new Circle(size/2);
+            case 1: s = new Rectangle(x, y, size, size);
                 s.setFill(critter.viewFillColor());
                 break;
             case 2: s = new Polygon((20 + x), y, (27 + x), (15 + y), (13 + x), (15 + y));
