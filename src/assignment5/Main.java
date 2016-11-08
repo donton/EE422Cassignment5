@@ -232,7 +232,9 @@ public class Main extends Application {
     }
 
     public void handleSeedAction(){
-
+        String newSeed = seed.getText();
+        Integer seed = Integer.getInteger(newSeed);
+        Critter.setSeed(Integer.toUnsignedLong(seed));
     }
 
 }
