@@ -28,13 +28,15 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 	static GridPane grid = new GridPane();
-    Button makeButton, stepButton, moreStepsButton, quitButton, statsButton, allButton, seedButton;
+
+    Button makeButton, stepButton, moreStepsButton, quitButton, statsButton, allButton, seedButton, animationStart, animationStop;
     VBox controllerBox, statsBox;
-    Label enterTypeCont, enterTypeStats, enterNumber, statsResults, enterSteps, enterSeed, addAction, runAction;
-    TextField typeCont, typeStats, number, numSteps, seed;
+    Label enterTypeCont, enterTypeStats, enterNumber, statsResults, enterSteps, enterSeed, addAction, runAction, enterAnimationSpeed;
+    TextField typeCont, typeStats, number, numSteps, seed, animationSpeed;
     Region buffer1;
     static Text textArea;
     ComboBox classNames1, classNames2;
+    static boolean stopFlag = false;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -48,6 +50,8 @@ public class Main extends Application {
             moreStepsButton = new Button("Do World Steps");
             quitButton = new Button("Quit");
             seedButton = new Button("Set Seed");
+            animationStart = new Button("Start Animation");
+            animationStop = new Button("Stop Animation");
 
             // set action handlers for all buttons
             makeButton.setOnAction(e->handleMakeAction());
@@ -55,6 +59,7 @@ public class Main extends Application {
             moreStepsButton.setOnAction(e->handleMoreStepsAction());
             quitButton.setOnAction(e->handleQuitAction());
             seedButton.setOnAction(e->handleSeedAction());
+            animationStart.setOnAction(e->handleAnimationStart());
 
             // set contents of drop down boxes
             classNames1 = new ComboBox();
@@ -71,6 +76,10 @@ public class Main extends Application {
             
             enterTypeStats = new Label("Select A Critter: ");
             typeStats = new TextField();
+            
+            enterAnimationSpeed = new Label("Enter A Valid Animation Speed: ");
+            enterAnimationSpeed.setFont(new Font(15));
+            animationSpeed = new TextField();
 
             enterNumber = new Label("How many?");
             number = new TextField();
@@ -92,7 +101,7 @@ public class Main extends Application {
             buffer1 = new Region();
 
             controllerBox = new VBox(controlTitle, addAction, enterTypeCont, classNames1, enterNumber, number, makeButton, buffer1, runAction, stepButton, enterSteps, numSteps,
-                    moreStepsButton, enterSeed, seed, seedButton, quitButton);
+                    moreStepsButton, enterAnimationSpeed, animationSpeed, animationStart, animationStop, enterSeed, seed, seedButton, quitButton);
             controllerBox.setSpacing(10);
             controllerBox.setPadding(new Insets(10));
 
@@ -198,6 +207,26 @@ public class Main extends Application {
         }
     }
 
+    public void handleAnimationStart() {
+    	int speed = Integer.parseInt(animationSpeed.getText());
+    	
+	    while(!stopFlag) {	
+    		animationStop.setOnAction(e->stopFlag = true);
+	    	for (int i = 0; i < speed; i++) {
+	    		Critter.worldTimeStep();
+	    		animationStop.setOnAction(e->stopFlag = true);
+	    	}
+	    	for (int i = 0; i < 1000000000; i++) {
+	    	}
+	    	animationStop.setOnAction(e->stopFlag = true);
+	    	Painter.displayWorld();
+	    }
+    }
+ 
+    public void handleAnimationStop() {
+    	
+    }
+    
     public void handleWorldStatsAction(){
         Critter.runStats(Critter.getPop());
     }
