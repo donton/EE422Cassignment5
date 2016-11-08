@@ -39,9 +39,9 @@ public abstract class Critter {
 	 * shape, at least, that's the intent. You can edit these default methods however you 
 	 * need to, but please preserve that intent as you implement them. 
 	 */
-	public javafx.scene.paint.Color viewColor() { return Color.RED; }
+	public javafx.scene.paint.Color viewColor() { return Color.web("#e9ecee"); }
 	public javafx.scene.paint.Color viewOutlineColor() { return Color.BLUE; }
-	public javafx.scene.paint.Color viewFillColor() { return Color.RED; }
+	public javafx.scene.paint.Color viewFillColor() { return Color.web("#e9ecee"); }
 
 	public abstract CritterShape viewShape(); 
 	

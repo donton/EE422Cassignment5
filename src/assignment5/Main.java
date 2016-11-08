@@ -12,12 +12,13 @@
 
 package assignment5;
 
-import java.util.List;
+import java.io.File;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.*;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -25,16 +26,15 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import static javafx.scene.layout.Priority.ALWAYS;
-
 public class Main extends Application {
 	static GridPane grid = new GridPane();
     Button makeButton, stepButton, moreStepsButton, quitButton, statsButton, allButton, seedButton;
-    VBox buttonBox, statsBox, makeBox;
+    VBox controllerBox, statsBox;
     Label enterTypeCont, enterTypeStats, enterNumber, statsResults, enterSteps, enterSeed, addAction, runAction;
     TextField typeCont, typeStats, number, numSteps, seed;
-    Region buffer1, buffer2;
+    Region buffer1;
     static Text textArea;
+    ComboBox classNames1, classNames2;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -42,25 +42,34 @@ public class Main extends Application {
 
             grid.setStyle("-fx-background-color: black, #e9ecee; -fx-background-insets: 0, 2;");
 
+            // create buttons and their labels
             makeButton = new Button("Make New Critters");
             stepButton = new Button("One World Step");
             moreStepsButton = new Button("Do World Steps");
             quitButton = new Button("Quit");
             seedButton = new Button("Set Seed");
-            
+
+            // set action handlers for all buttons
             makeButton.setOnAction(e->handleMakeAction());
             stepButton.setOnAction(e->handleStepAction());
             moreStepsButton.setOnAction(e->handleMoreStepsAction());
             quitButton.setOnAction(e->handleQuitAction());
             seedButton.setOnAction(e->handleSeedAction());
 
-            enterTypeCont = new Label("Enter A Valid Critter Name: ");
+            // set contents of drop down boxes
+            classNames1 = new ComboBox();
+            classNames1.setItems(Painter.getClasses());
+            classNames2 = new ComboBox();
+            classNames2.setItems(Painter.getClasses());
+
+            // setup for controller box
+            enterTypeCont = new Label("Select A Critter: ");
             typeCont = new TextField();
             
             enterSteps = new Label("OR\n\nEnter A Valid Step Number: ");
             numSteps = new TextField();
             
-            enterTypeStats = new Label("Enter A Valid Critter Name: ");
+            enterTypeStats = new Label("Select A Critter: ");
             typeStats = new TextField();
 
             enterNumber = new Label("How many?");
@@ -82,11 +91,12 @@ public class Main extends Application {
 
             buffer1 = new Region();
 
-            buttonBox = new VBox(controlTitle, addAction, enterTypeCont, typeCont, enterNumber, number, makeButton, buffer1, runAction, stepButton, enterSteps, numSteps,
+            controllerBox = new VBox(controlTitle, addAction, enterTypeCont, classNames1, enterNumber, number, makeButton, buffer1, runAction, stepButton, enterSteps, numSteps,
                     moreStepsButton, enterSeed, seed, seedButton, quitButton);
-            buttonBox.setSpacing(10);
-            buttonBox.setPadding(new Insets(10));
+            controllerBox.setSpacing(10);
+            controllerBox.setPadding(new Insets(10));
 
+            // stats panel setup
             Text statsTitle = new Text();
             statsTitle.setFont(new Font(20));
             statsTitle.setText("World Statistics");
@@ -100,16 +110,16 @@ public class Main extends Application {
             statsButton = new Button("View Stats");
             statsButton.setOnAction(e->handleStatsAction());
             
-            statsBox = new VBox(statsTitle, allButton, enterTypeStats, typeStats, statsButton, statsResults, textArea);
+            statsBox = new VBox(statsTitle, allButton, enterTypeStats, classNames2, statsButton, statsResults, textArea);
             statsBox.setSpacing(10);
             statsBox.setPadding(new Insets(10));
 
-            //create the BorderPane
+            //create the BorderPane that holds all the content from above
             BorderPane root = new BorderPane();
             root.setPadding(new Insets(10));
 
             //add components to regions of BorderPane
-            root.setLeft(buttonBox);
+            root.setLeft(controllerBox);
             root.setRight(statsBox);
             root.setCenter(grid);
 
@@ -118,7 +128,7 @@ public class Main extends Application {
             primaryStage.setScene(scene);
             primaryStage.show();
 
-			// Paints the icons.
+			// Paints the icons (basically the world in general)
 			Painter.displayWorld();
 
 		} catch(Exception e) {
@@ -131,7 +141,8 @@ public class Main extends Application {
 	public void handleMakeAction()
     {
         Integer numCritters;
-        if (typeCont.getText() != null && number.getText().isEmpty() == false)
+        String className = classNames1.getValue().toString();
+        if (className != null && number.getText().isEmpty() == false)
         {
             if (number.getText() == null | number.getText().isEmpty())
             {
@@ -145,7 +156,7 @@ public class Main extends Application {
             {
                 try
                 {
-                Critter.makeCritter(typeCont.getText().toString());
+                Critter.makeCritter(className);
                 }
                 catch (InvalidCritterException e)
                 {
@@ -178,9 +189,10 @@ public class Main extends Application {
     }
 
     public void handleStatsAction(){
-        if (typeStats.getText() != null && typeStats.getText().isEmpty() == false)
+        String classStats = classNames2.getValue().toString();
+        if (classStats != null && classStats.isEmpty() == false)
             try {
-                Critter.runStats(Critter.getInstances(typeStats.getText()));
+                Critter.runStats(Critter.getInstances(classStats));
             }catch (InvalidCritterException e){
                 return;
         }
