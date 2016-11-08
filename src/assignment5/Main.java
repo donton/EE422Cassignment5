@@ -43,7 +43,10 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 
-            grid.setStyle("-fx-background-color: black, #e9ecee; -fx-background-insets: 0, 2;");
+            grid.setStyle("-fx-background-color: black, #e9ecee; -fx-background-insets: 0, 5;");
+            grid.setGridLinesVisible(true);
+            grid.setHgap(2);
+            grid.setVgap(2);
 
             // create buttons and their labels
             makeButton = new Button("Make New Critters");
