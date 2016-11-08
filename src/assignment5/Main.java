@@ -29,10 +29,10 @@ import static javafx.scene.layout.Priority.ALWAYS;
 
 public class Main extends Application {
 	static GridPane grid = new GridPane();
-    Button makeButton, stepButton, moreStepsButton, quitButton, statsButton, allButton, seedButton;
+    Button makeButton, stepButton, moreStepsButton, quitButton, statsButton, allButton, seedButton, animationStart, animationStop;
     VBox buttonBox, statsBox, makeBox;
-    Label enterTypeCont, enterTypeStats, enterNumber, statsResults, enterSteps, enterSeed, addAction, runAction;
-    TextField typeCont, typeStats, number, numSteps, seed;
+    Label enterTypeCont, enterTypeStats, enterNumber, statsResults, enterSteps, enterSeed, addAction, runAction, enterAnimationSpeed;
+    TextField typeCont, typeStats, number, numSteps, seed, animationSpeed;
     Region buffer1, buffer2;
     static Text textArea;
 
@@ -47,12 +47,16 @@ public class Main extends Application {
             moreStepsButton = new Button("Do World Steps");
             quitButton = new Button("Quit");
             seedButton = new Button("Set Seed");
+            animationStart = new Button("Start Animation");
+            animationStop = new Button("Stop Animation");
             
             makeButton.setOnAction(e->handleMakeAction());
             stepButton.setOnAction(e->handleStepAction());
             moreStepsButton.setOnAction(e->handleMoreStepsAction());
             quitButton.setOnAction(e->handleQuitAction());
             seedButton.setOnAction(e->handleSeedAction());
+            animationStart.setOnAction(e->handleAnimationStart());
+            animationStop.setOnAction(e->handleAnimationStop());
 
             enterTypeCont = new Label("Enter A Valid Critter Name: ");
             typeCont = new TextField();
@@ -62,6 +66,10 @@ public class Main extends Application {
             
             enterTypeStats = new Label("Enter A Valid Critter Name: ");
             typeStats = new TextField();
+            
+            enterAnimationSpeed = new Label("Enter A Valid Animation Speed: ");
+            enterAnimationSpeed.setFont(new Font(15));
+            animationSpeed = new TextField();
 
             enterNumber = new Label("How many?");
             number = new TextField();
@@ -83,7 +91,7 @@ public class Main extends Application {
             buffer1 = new Region();
 
             buttonBox = new VBox(controlTitle, addAction, enterTypeCont, typeCont, enterNumber, number, makeButton, buffer1, runAction, stepButton, enterSteps, numSteps,
-                    moreStepsButton, enterSeed, seed, seedButton, quitButton);
+                    moreStepsButton, enterAnimationSpeed, animationSpeed, animationStart, animationStop, enterSeed, seed, seedButton, quitButton);
             buttonBox.setSpacing(10);
             buttonBox.setPadding(new Insets(10));
 
@@ -186,6 +194,14 @@ public class Main extends Application {
         }
     }
 
+    public void handleAnimationStart() {
+    	
+    }
+ 
+    public void handleAnimationStop() {
+    	
+    }
+    
     public void handleWorldStatsAction(){
         Critter.runStats(Critter.getPop());
     }
