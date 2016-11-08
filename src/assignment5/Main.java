@@ -30,9 +30,10 @@ public class Main extends Application {
 	static GridPane grid = new GridPane();
 
     Button makeButton, stepButton, moreStepsButton, quitButton, statsButton, allButton, seedButton, animationStart, animationStop;
+    Slider slider;
     VBox controllerBox, statsBox;
     Label enterTypeCont, enterTypeStats, enterNumber, statsResults, enterSteps, enterSeed, addAction, runAction, enterAnimationSpeed;
-    TextField typeCont, typeStats, number, numSteps, seed, animationSpeed;
+    TextField typeCont, typeStats, number, numSteps, seed;
     Region buffer1;
     static Text textArea;
     ComboBox classNames1, classNames2;
@@ -71,16 +72,18 @@ public class Main extends Application {
             enterTypeCont = new Label("Select A Critter: ");
             typeCont = new TextField();
             
-            enterSteps = new Label("OR\n\nEnter A Valid Step Number: ");
+            enterSteps = new Label("OR\nEnter A Valid Step Number: ");
             numSteps = new TextField();
             
             enterTypeStats = new Label("Select A Critter: ");
             typeStats = new TextField();
             
-            enterAnimationSpeed = new Label("Enter A Valid Animation Speed: ");
+            enterAnimationSpeed = new Label("Select Animation Speed");
             enterAnimationSpeed.setFont(new Font(15));
-            animationSpeed = new TextField();
-
+            slider = new Slider(0, 100, 1);
+            slider.setShowTickLabels(true);
+            slider.setShowTickMarks(true);
+            
             enterNumber = new Label("How many?");
             number = new TextField();
 
@@ -101,7 +104,7 @@ public class Main extends Application {
             buffer1 = new Region();
 
             controllerBox = new VBox(controlTitle, addAction, enterTypeCont, classNames1, enterNumber, number, makeButton, buffer1, runAction, stepButton, enterSteps, numSteps,
-                    moreStepsButton, enterAnimationSpeed, animationSpeed, animationStart, animationStop, enterSeed, seed, seedButton, quitButton);
+                    moreStepsButton, enterAnimationSpeed, slider, animationStart, animationStop, enterSeed, seed, seedButton, quitButton);
             controllerBox.setSpacing(10);
             controllerBox.setPadding(new Insets(10));
 
@@ -208,7 +211,7 @@ public class Main extends Application {
     }
 
     public void handleAnimationStart() {
-    	int speed = Integer.parseInt(animationSpeed.getText());
+    	int speed = (int) slider.getValue();
     	
 	    while(!stopFlag) {	
     		animationStop.setOnAction(e->stopFlag = true);
@@ -216,8 +219,12 @@ public class Main extends Application {
 	    		Critter.worldTimeStep();
 	    		animationStop.setOnAction(e->stopFlag = true);
 	    	}
-	    	for (int i = 0; i < 1000000000; i++) {
-	    	}
+	    	speed = (int) slider.getValue();
+	    	try {
+				wait(20);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
 	    	animationStop.setOnAction(e->stopFlag = true);
 	    	Painter.displayWorld();
 	    }
