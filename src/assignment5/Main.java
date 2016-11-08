@@ -16,14 +16,10 @@ import java.util.List;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.geometry.*;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -33,10 +29,10 @@ import static javafx.scene.layout.Priority.ALWAYS;
 
 public class Main extends Application {
 	static GridPane grid = new GridPane();
-    Button makeButton, stepButton, moreStepsButton, quitButton, statsButton, allButton;
+    Button makeButton, stepButton, moreStepsButton, quitButton, statsButton, allButton, seedButton;
     VBox buttonBox, statsBox, makeBox;
-    Label enterTypeCont, enterTypeStats, enterNumber, statsResults, enterSteps;
-    TextField typeCont, typeStats, number, numSteps;
+    Label enterTypeCont, enterTypeStats, enterNumber, statsResults, enterSteps, enterSeed;
+    TextField typeCont, typeStats, number, numSteps, seed;
     Region buffer1, buffer2;
     static Text textArea;
 
@@ -44,34 +40,19 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 
-            grid.setStyle("-fx-background-color: #e9ecee;");
-            grid.setPadding(new Insets(5));
-            grid.setPrefSize(Params.world_width, Params.world_height);
-
-            final int width = Params.world_width;
-            final int height = Params.world_height;
-
-            for (int j = 0; j < width; j++) {
-                ColumnConstraints cc = new ColumnConstraints();
-                cc.setHgrow(ALWAYS);
-                grid.getColumnConstraints().add(cc);
-            }
-
-            for (int j = 0; j < height; j++) {
-                RowConstraints rc = new RowConstraints();
-                rc.setVgrow(ALWAYS);
-                grid.getRowConstraints().add(rc);
-            }
+            grid.setStyle("-fx-background-color: black, #e9ecee; -fx-background-insets: 0, 2;");
 
             makeButton = new Button("Make New Critters");
             stepButton = new Button("One World Step");
-            moreStepsButton = new Button("World Steps");
+            moreStepsButton = new Button("Do World Steps");
             quitButton = new Button("Quit");
+            seedButton = new Button("Set Seed");
             
             makeButton.setOnAction(e->handleMakeAction());
             stepButton.setOnAction(e->handleStepAction());
             moreStepsButton.setOnAction(e->handleMoreStepsAction());
             quitButton.setOnAction(e->handleQuitAction());
+            seedButton.setOnAction(e->handleSeedAction());
 
             enterTypeCont = new Label("Enter A Valid Critter Name: ");
             typeCont = new TextField();
@@ -85,15 +66,17 @@ public class Main extends Application {
             enterNumber = new Label("How many?");
             number = new TextField();
 
+            enterSeed = new Label("Enter a seed:");
+            seed = new TextField();
+
             Text controlTitle = new Text();
             controlTitle.setFont(new Font(20));
-            controlTitle.setText("Controller");
-            makeBox = new VBox(controlTitle, enterTypeCont, typeCont, enterNumber, number, makeButton);
+            controlTitle.setText("Change the Critter World");
 
             buffer1 = new Region();
-            buffer2 = new Region();
-            
-            buttonBox = new VBox(makeBox, buffer1, stepButton, enterSteps, numSteps, moreStepsButton, buffer2, quitButton);
+
+            buttonBox = new VBox(controlTitle, enterTypeCont, typeCont, enterNumber, number, makeButton, buffer1, stepButton, enterSteps, numSteps,
+                    moreStepsButton, enterSeed, seed, seedButton, quitButton);
             buttonBox.setSpacing(10);
             buttonBox.setPadding(new Insets(10));
 
@@ -102,7 +85,7 @@ public class Main extends Application {
             statsTitle.setText("World Statistics");
 
             textArea = new Text("");
-            typeStats.setPrefColumnCount(30);
+            typeStats.setPrefColumnCount(20);
 
             statsResults = new Label("Results:");
             allButton = new Button ("View World Stats");
@@ -198,6 +181,10 @@ public class Main extends Application {
 
     public void handleWorldStatsAction(){
         Critter.runStats(Critter.getPop());
+    }
+
+    public void handleSeedAction(){
+
     }
 
 }
