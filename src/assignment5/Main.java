@@ -31,7 +31,7 @@ public class Main extends Application {
 	static GridPane grid = new GridPane();
     Button makeButton, stepButton, moreStepsButton, quitButton, statsButton, allButton, seedButton;
     VBox buttonBox, statsBox, makeBox;
-    Label enterTypeCont, enterTypeStats, enterNumber, statsResults, enterSteps, enterSeed;
+    Label enterTypeCont, enterTypeStats, enterNumber, statsResults, enterSteps, enterSeed, addAction, runAction;
     TextField typeCont, typeStats, number, numSteps, seed;
     Region buffer1, buffer2;
     static Text textArea;
@@ -66,8 +66,15 @@ public class Main extends Application {
             enterNumber = new Label("How many?");
             number = new TextField();
 
-            enterSeed = new Label("Enter a seed:");
+            enterSeed = new Label("Enter a seed");
+            enterSeed.setFont(new Font(15));
             seed = new TextField();
+
+            addAction = new Label("Add new Critters");
+            addAction.setFont(new Font(15));
+
+            runAction = new Label("Do a World Step");
+            runAction.setFont(new Font(15));
 
             Text controlTitle = new Text();
             controlTitle.setFont(new Font(20));
@@ -75,7 +82,7 @@ public class Main extends Application {
 
             buffer1 = new Region();
 
-            buttonBox = new VBox(controlTitle, enterTypeCont, typeCont, enterNumber, number, makeButton, buffer1, stepButton, enterSteps, numSteps,
+            buttonBox = new VBox(controlTitle, addAction, enterTypeCont, typeCont, enterNumber, number, makeButton, buffer1, runAction, stepButton, enterSteps, numSteps,
                     moreStepsButton, enterSeed, seed, seedButton, quitButton);
             buttonBox.setSpacing(10);
             buttonBox.setPadding(new Insets(10));
