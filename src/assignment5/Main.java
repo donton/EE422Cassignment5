@@ -35,6 +35,7 @@ public class Main extends Application {
     TextField typeCont, typeStats, number, numSteps, seed, animationSpeed;
     Region buffer1, buffer2;
     static Text textArea;
+    static boolean stopFlag = false;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -56,7 +57,6 @@ public class Main extends Application {
             quitButton.setOnAction(e->handleQuitAction());
             seedButton.setOnAction(e->handleSeedAction());
             animationStart.setOnAction(e->handleAnimationStart());
-            animationStop.setOnAction(e->handleAnimationStop());
 
             enterTypeCont = new Label("Enter A Valid Critter Name: ");
             typeCont = new TextField();
@@ -195,7 +195,19 @@ public class Main extends Application {
     }
 
     public void handleAnimationStart() {
+    	int speed = Integer.parseInt(animationSpeed.getText());
     	
+	    while(!stopFlag) {	
+    		animationStop.setOnAction(e->stopFlag = true);
+	    	for (int i = 0; i < speed; i++) {
+	    		Critter.worldTimeStep();
+	    		animationStop.setOnAction(e->stopFlag = true);
+	    	}
+	    	for (int i = 0; i < 1000000000; i++) {
+	    	}
+	    	animationStop.setOnAction(e->stopFlag = true);
+	    	Painter.displayWorld();
+	    }
     }
  
     public void handleAnimationStop() {
