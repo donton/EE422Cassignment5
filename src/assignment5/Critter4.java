@@ -43,7 +43,9 @@ public class Critter4 extends TestCritter
     @Override
     public void doTimeStep()
     {
-    	run(1);
+    	if (look(1, true).equals(null)) {
+    		run(1);
+    	}
     }
 
     @Override

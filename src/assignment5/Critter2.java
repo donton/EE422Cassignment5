@@ -48,6 +48,9 @@ public class Critter2 extends Critter
     @Override
     public boolean fight(String opponent)
     {
-        return true;
+        if (!look(dir, true).equals(null)) {
+    		return true;
+        }
+        return false;
     }
 }
