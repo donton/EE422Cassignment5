@@ -112,7 +112,10 @@ public class Painter {
         // strip off file paths, keep file names
         for (int i = 0; i < classes.size(); i++)
         {
-            int index = classes.get(i).toString().lastIndexOf('\\');
+            int index = classes.get(i).toString().lastIndexOf('/');
+            if (index == -1) {
+            	index = classes.get(i).toString().lastIndexOf('\\');
+            }
             String stripped = classes.get(i).toString().substring(index + 1);
             index = stripped.lastIndexOf('.');
             if (index != -1) {
