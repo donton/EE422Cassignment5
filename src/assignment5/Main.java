@@ -13,6 +13,7 @@
 package assignment5;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -224,17 +225,14 @@ public class Main extends Application {
 	    	}
 	    	speed = (int) slider.getValue();
 	    	try {
-				wait(20);
+	    		TimeUnit.SECONDS.sleep(1);
+	    		stopFlag = true;
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
 	    	animationStop.setOnAction(e->stopFlag = true);
 	    	Painter.displayWorld();
 	    }
-    }
- 
-    public void handleAnimationStop() {
-    	
     }
     
     public void handleWorldStatsAction(){
