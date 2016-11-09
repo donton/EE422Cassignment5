@@ -45,6 +45,9 @@ public class Main extends Application {
 		try {
 
             grid.setStyle("-fx-background-color: black, #e9ecee; -fx-background-insets: 0, 2;");
+            
+            grid.setGridLinesVisible(false);
+            
 
             // create buttons and their labels
             makeButton = new Button("Make New Critters");
@@ -213,6 +216,7 @@ public class Main extends Application {
 
     public void handleAnimationStart() {
     	int speed = (int) slider.getValue();
+    	stopFlag = false;
     	
 	    while(!stopFlag) {	
     		animationStop.setOnAction(e->stopFlag = true);
