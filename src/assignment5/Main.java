@@ -125,6 +125,7 @@ public class Main extends Application {
 
             textArea = new Text("");
             typeStats.setPrefColumnCount(20);
+            textArea.setWrappingWidth(200);
 
             statsResults = new Label("Results:");
             allButton = new Button ("View World Stats");
