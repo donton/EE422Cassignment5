@@ -12,7 +12,11 @@
 
 package assignment5;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.PrintStream;
+import java.lang.reflect.Method;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javafx.application.Application;
@@ -39,15 +43,17 @@ public class Main extends Application {
     static Text textArea;
     ComboBox classNames1, classNames2;
     static boolean stopFlag = false;
+    ByteArrayOutputStream stdOut = new ByteArrayOutputStream();
 
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+            System.setOut(new PrintStream(stdOut));
 
-            grid.setStyle("-fx-background-color: black, #e9ecee; -fx-background-insets: 0, 2;");
-            
-            grid.setGridLinesVisible(false);
-            
+            grid.setStyle("-fx-background-color: black, #e9ecee; -fx-background-insets: 0, 5;");
+            grid.setGridLinesVisible(true);
+            grid.setHgap(2);
+            grid.setVgap(2);
 
             // create buttons and their labels
             makeButton = new Button("Make New Critters");
@@ -205,13 +211,22 @@ public class Main extends Application {
     }
 
     public void handleStatsAction(){
+
         String classStats = classNames2.getValue().toString();
-        if (classStats != null && classStats.isEmpty() == false)
-            try {
-                Critter.runStats(Critter.getInstances(classStats));
-            }catch (InvalidCritterException e){
-                return;
+        String myPackage = Critter.class.getPackage().toString().split(" ")[1];
+        String className = myPackage + "." + classStats;
+
+        try {
+            Class<?> newCritter = Class.forName(className);
+            Method stats = newCritter.getMethod("runStats", List.class);
+            List<Critter> instances = Critter.getInstances(classStats);
+            stats.invoke(newCritter, instances);
+        } catch (Exception e)
+        {
+            return;
         }
+        String results = stdOut.toString();
+        textArea.setText(results);
     }
 
     public void handleAnimationStart() {
@@ -237,7 +252,10 @@ public class Main extends Application {
     }
     
     public void handleWorldStatsAction(){
+
         Critter.runStats(Critter.getPop());
+        String results = stdOut.toString();
+        textArea.setText(results);
     }
 
     public void handleSeedAction(){
