@@ -255,11 +255,12 @@ public abstract class Critter {
                 critter_count.put(crit_string, old_count.intValue() + 1);
             }
         }
-        String pop = "" + critters.size() + " critters as follows -- \n";
+        String prefix = "";
         for (String s : critter_count.keySet()) {
-        	pop = pop + s + ":" + critter_count.get(s) + "\n";
+            System.out.print(prefix + s + ":" + critter_count.get(s));
+            prefix = ", ";
         }
-        Main.textArea.setText(pop);
+        System.out.println();
     }
 
     /**
